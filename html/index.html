@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WordSearch</title>
+  <style>
+    
+    #grid {
+      margin-left: 10px;
+      border-collapse:separate;
+      border-spacing:0 0px;
+    }
+    
+    .clickable {
+      border: 1px solid black;
+      cursor: pointer;
+      margin:0px;
+      display: table-cell;
+      vertical-align: middle;
+      user-select: none;
+      width: 22px;
+      height: 22px;
+      text-align: center;
+    }
+    td{
+    }
+    .clickable.activated {
+      background-color: crimson;
+    }
+  </style>
+  <script>
+    let gridGenerated = false;
+    var connection = null;
+    let wordgrid = null;
+    var serverUrl;
+    let gridsize = 30;
+    //logs the URL of the websocket server, which sits on port 9880
+    serverUrl = "ws://" + window.location.hostname + ":9880";
+    connection = new WebSocket(serverUrl);
+    
+    connection.onopen = function (evt) {
+      console.log("opened a websocket to the App.java Websocket Server");
+      var grid = document.getElementById("grid");
+        for (let i = 0; i < gridsize; i++) {
+          var row = document.createElement("tr");
+          for (let j = 0; j < gridsize; j++) {
+            let cell = document.createElement("td");
+            cell.className = "clickable";
+            cell.id = i + "," + j;
+            cell.addEventListener("click", function () {
+              this.classList.toggle("activated");
+            });
+            row.appendChild(cell);
+          }
+          grid.appendChild(row);
+        }
+    }
+
+    connection.onmessage = function(evt){
+      var msg = evt.data;
+      
+      //TO DO: IMPLEMENT CHECKING THE KIND OF MESSAGE WE GOT TO AVOID
+      // UPDATING THE GRID UNNECESSARILY
+
+      //Try and parse a 2d JSON array out of this thing.
+      if (typeof msg !== "string") {
+        console.log("not a string");
+      }
+      try {
+        let obj = JSON.parse(msg);
+        wordgrid = obj;
+        for (let i = 0; i < gridsize; i++) {
+          for (let j = 0; j < gridsize; j++) {
+            document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
+          }
+        }
+      } 
+      catch (error) {
+          console.log("not a JSON");
+          console.log("App.java WS: " + msg);
+      }
+      
+      
+    }
+    
+  </script>
+</head>
+<!-- When user connects thru WS, don't give them an ID yet. -->
+<!-- Only after they enter a valid nickname and the system lets them through. -->
+<!--  -->
+<body>
+  <!-- <h1>This is a file inside html/</h1> -->
+  <table id="grid"></table>
+</body>
+
+<!-- Note from 3/6. Once websocket and http is set up, work on 
+     creating a grid out of buttons generatively.
+     Each button should send a unique message to the server.
+     Most likely need to package the UserID with the message, 
+     in order to distinguish user inputs
+     in real time.
+-->
+</html>
+
+<!-- mvn exec:java -Dexec.mainClass=com.example.Main -->
