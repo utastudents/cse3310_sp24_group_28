@@ -2,7 +2,20 @@ var connection = null;
 let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
+let name = null;
 inputCoords = [];
+
+// Class for UserMessage
+class UserMsg{
+  code = null;
+  name = null;
+  startCoords = [];
+  endCoords = [];
+  GameNum = null;
+}
+
+
+
 //logs the URL of the websocket server, which sits on port 9880
 serverUrl = "ws://" + window.location.hostname + ":9880";
 connection = new WebSocket(serverUrl);
@@ -59,7 +72,26 @@ function scream(i,j){
   console.log(`called [${i}][${j}]`);
   inputCoords.push([i,j]);
   if(inputCoords.length == 2){
-    console.log("Start:" + "[" + inputCoords[0] + "]" +
-                " End:" + "[" +inputCoords[1] + "]");    inputCoords = [];
+    console.log("Start:" + "[" + inputCoords[0] + "]" + " End:" + "[" +inputCoords[1] + "]");
+    //parse input
+    // [i][0] = serves as y coord, [i][1] serves as x coordinate
+    dy = inputCoords[1][1] - inputCoords[0][1] 
+    dx = inputCoords[1][0] - inputCoords[0][0]
+    console.log(dy + "/" + dx);
+    // if dy or dx is zero, then it's vertical or horizontal
+    // if(inputCoords)
+    inputCoords = [];
   }
+}
+
+function submitName(){
+  let x = document.getElementById("name").value;
+  console.log("Requested server for name: " + x);
+  U = new UserMsg;
+  U.code = 100;
+  U.name = x;
+  U.startCoords = [1,3];
+  U.endCoords = [5,7];
+  U.GameNum = 1;
+  connection.send(JSON.stringify(U));
 }

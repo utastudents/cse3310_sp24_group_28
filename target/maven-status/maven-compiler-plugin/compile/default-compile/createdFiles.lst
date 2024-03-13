@@ -1,3 +1,4 @@
-com/example/Game.class
 com/example/HttpServer.class
 com/example/Main.class
+com/example/Game.class
+com/example/UserMsg.class
