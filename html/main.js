@@ -92,6 +92,6 @@ function submitName(){
   U.name = x;
   U.startCoords = [1,3];
   U.endCoords = [5,7];
-  U.GameNum = 1;
+  U.GameNum = 0;
   connection.send(JSON.stringify(U));
 }

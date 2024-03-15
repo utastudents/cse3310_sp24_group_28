@@ -22,7 +22,7 @@ import com.google.gson.JsonObject;
 import java.util.Vector;
 public class Main extends WebSocketServer {
     Vector<Game> games = new Vector<Game>();
-    String nicknames[];
+    
     public Main(int port){
         super(new InetSocketAddress(port));
     }
