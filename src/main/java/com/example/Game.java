@@ -6,10 +6,9 @@ public class Game {
   int numRows;
   int numCols;
   public char[][] grid;
-  // list of used nicknames shared between all the games?
-  static String nicknames[];
   //list of players inside each individual game
   Player playerList[];
+  boolean isOpen;
 
   public Game(){
   }
@@ -19,7 +18,7 @@ public class Game {
   public void printGrid(){
   }
 
-  public void placeWord(){
+  public void fillGrid(){
   }
 
   public void fillHori(String word, int row, int col){
@@ -30,15 +29,21 @@ public class Game {
   }
 
 
-  public void highlightCell(int playerID, int[] coord){
+  public void chooseCell(int playerID, int[] coord){
 
   }
+
   public void checkWord(int[] startCoords, int[] endCoords, char[][] grid){
 
   }
 
-  public void playerSetReady(){
+  public void highlightWord(int[] startCoords, int[] endCoords){
 
+  }
+
+  public void playerSetReady(){
+    // check number of ready players every time this thing is called, start the game immediately the moment it hits 2
+    
   }
 
   public void startGame(){

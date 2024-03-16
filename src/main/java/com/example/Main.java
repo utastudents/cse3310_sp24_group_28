@@ -22,6 +22,8 @@ import com.google.gson.JsonObject;
 import java.util.Vector;
 public class Main extends WebSocketServer {
     Vector<Game> games = new Vector<Game>();
+    // list of used nicknames shared between all the games?
+    static String nicknames[];
     
     public Main(int port){
         super(new InetSocketAddress(port));
@@ -34,7 +36,7 @@ public class Main extends WebSocketServer {
         Game testGame = null;
         testGame = new Game();
         testGame.initGrid();
-        testGame.placeWord();
+        testGame.fillGrid();
         
         // attaches this specific Game object instance to the 
         // specific ws connection that just opened
@@ -79,8 +81,10 @@ public class Main extends WebSocketServer {
         setConnectionLostTimeout(0);
     }
 
-
-
+    public boolean checkName(String requestedName){
+        // check through the nicknames list
+        return true;
+      }
     public static void main(String[] args) {
 
         // Set up the http server
