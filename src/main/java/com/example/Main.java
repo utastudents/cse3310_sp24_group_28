@@ -23,8 +23,8 @@ import java.util.Vector;
 public class Main extends WebSocketServer {
     Vector<Game> games = new Vector<Game>();
     // list of used nicknames shared between all the games?
-    static String nicknames[];
-    
+    String nicknames[];
+    Player allPlayers[];
     public Main(int port){
         super(new InetSocketAddress(port));
     }
@@ -35,8 +35,8 @@ public class Main extends WebSocketServer {
         System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " connected");
         Game testGame = null;
         testGame = new Game();
-        testGame.initGrid();
-        testGame.fillGrid();
+        // testGame.initGrid();
+        // testGame.fillGrid();
         
         // attaches this specific Game object instance to the 
         // specific ws connection that just opened

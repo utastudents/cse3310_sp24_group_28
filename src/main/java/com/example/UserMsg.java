@@ -5,5 +5,5 @@ public class UserMsg {
   String name;
   int startCoords[];
   int endCoords[];
-  int gameNum;
+  int gameId;
 }

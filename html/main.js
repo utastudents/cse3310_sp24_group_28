@@ -11,7 +11,7 @@ class UserMsg{
   name = null;
   startCoords = [];
   endCoords = [];
-  GameNum = null;
+  GameId = null;
 }
 
 
