@@ -33,10 +33,6 @@ public class Matrix {
 
 
 
-
-  public void fillGrid(){
-  }
-
   public void horizontalWordInsert(boolean invert, String word, char[][] matrix){
   }
   public void verticalWordInsert(boolean invert, String word, char[][] matrix){

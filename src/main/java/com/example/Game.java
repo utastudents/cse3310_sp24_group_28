@@ -1,14 +1,14 @@
 package com.example;
-
+import java.util.Timer;
 public class Game {
   // Possible attributes needed
   // list of players
   
   //list of players inside each individual game
+  Matrix gameMatrix;
   public Player playerList[];
   public boolean isOpen;
-  Matrix gameMatrix;
-
+  Timer timer;
 
   public Game(){
   }

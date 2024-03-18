@@ -7,5 +7,6 @@ public class Player {
   boolean isReady;
 
   Player(String name){
+    this.name = name;
   }
 }

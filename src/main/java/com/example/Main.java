@@ -25,6 +25,7 @@ public class Main extends WebSocketServer {
     // list of used nicknames shared between all the games?
     String nicknames[];
     Player allPlayers[];
+    int playerCount;
     public Main(int port){
         super(new InetSocketAddress(port));
     }
@@ -84,7 +85,7 @@ public class Main extends WebSocketServer {
     public boolean checkName(String requestedName){
         // check through the nicknames list
         return true;
-      }
+    }
     public static void main(String[] args) {
 
         // Set up the http server
