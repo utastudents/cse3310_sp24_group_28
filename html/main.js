@@ -2,8 +2,10 @@ var connection = null;
 let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
-let name = null;
 inputCoords = [];
+
+// Player attributes?
+let name = null;
 
 // Class for UserMessage
 class UserMsg{
@@ -11,14 +13,13 @@ class UserMsg{
   name = null;
   startCoords = [];
   endCoords = [];
-  GameId = null;
 }
-
 
 
 //logs the URL of the websocket server, which sits on port 9880
 serverUrl = "ws://" + window.location.hostname + ":9880";
 connection = new WebSocket(serverUrl);
+
 
 connection.onopen = function (evt) {
   console.log("opened a websocket to the App.java Websocket Server");
@@ -37,30 +38,89 @@ connection.onopen = function (evt) {
     }
     grid.appendChild(row);
   }
+  grid.style.display = "none";
 }
 
 connection.onmessage = function(evt){
+  // rework this
+  // if it can be parsed into a json, then it's data
+  // for updating the interface
+  // if it aint, then it's just a reply code for the front end to read
+
   var msg = evt.data;
-  
+
   //TO DO: IMPLEMENT CHECKING THE KIND OF MESSAGE WE GOT TO AVOID
   // UPDATING THE GRID UNNECESSARILY
 
   //Try and parse a 2d JSON array out of this thing.
-  if (typeof msg !== "string") {
-    console.log("not a string");
-  }
   try {
     let obj = JSON.parse(msg);
-    wordgrid = obj;
-    for (let i = 0; i < gridsize; i++) {
-      for (let j = 0; j < gridsize; j++) {
-        document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
+
+    // if the object is a Lobby
+    console.log(msg);
+    if("playerNames" in obj){
+      let lobbyTitle = "Lobby: " + obj.gamesAvailable;
+      document.getElementById("lobbyTitle").innerHTML = lobbyTitle;
+      let lobbyTable = document.getElementById("lobbyList");
+      lobbyTable.innerHTML = "";
+      if(obj.numReady >= 2 && obj.gamesAvailable > 0){
+        document.getElementById("gameReadyMsg").style.display = "block";
+        document.getElementById("startGameButton").disabled = false;
       }
+      else{
+        document.getElementById("gameReadyMsg").style.display = "none";
+        document.getElementById("startGameButton").disabled = true;
+      }
+      for(let i = 0; i < obj.numPlayers; i++){
+        // console.log(obj.playerNames[i]);
+        let row = document.createElement("tr");
+
+        let nameCell = document.createElement("td");
+        nameCell.innerHTML = obj.playerNames[i];
+        let statusCell = document.createElement("td");
+        if(obj.playerStatuses[i] == false){
+          statusCell.innerHTML = "Not Ready";
+          statusCell.style.color = "red";
+        }
+        else{
+          statusCell.innerHTML = "Ready";
+          statusCell.style.color = "green";
+        }
+        nameCell.setAttribute("id","nameCell");
+        statusCell.setAttribute("id","statusCell");
+        
+        row.appendChild(nameCell);
+        row.appendChild(statusCell);
+        lobbyTable.appendChild(row);
+      }
+    }
+    else if("isOpen" in obj){
+      document.getElementById("lobby").style.display = "none";
+      document.getElementById("gameArea").style.display = "block";
+      document.getElementById("grid").style.display = "block";
+      wordgrid = obj.matrix;
+      for (let i = 0; i < gridsize; i++) {
+        for (let j = 0; j < gridsize; j++) {
+          document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
+        }
+      }
+    }
+    else{
+      console.log("can't");
     }
   } 
   catch (error) {
-      console.log("not a JSON");
-      console.log("App.java WS: " + msg);
+    console.log("WS Server: " + msg);
+    if(msg == "approved"){
+      document.title = document.getElementById("name").value;
+      document.getElementById("serverMessage").style.display = "none";
+      document.getElementById("name").value = "";
+      document.getElementById("textInput").style.display = "none";
+      document.getElementById("lobby").style.display = "block";
+    }
+    else if(msg == "unapproved"){
+      document.getElementById("serverMessage").innerHTML = "Name already taken";
+    }
   }
   
   
@@ -86,12 +146,34 @@ function scream(i,j){
 
 function submitName(){
   let x = document.getElementById("name").value;
-  console.log("Requested server for name: " + x);
+  this.name = x;
+  console.log("Requested server for name: " + this.name);
   U = new UserMsg;
+  U.name = this.name;
   U.code = 100;
-  U.name = x;
-  U.startCoords = [1,3];
-  U.endCoords = [5,7];
-  U.GameNum = 0;
+  connection.send(JSON.stringify(U));
+}
+
+function toggleReady(){
+  console.log("i am " + this.name);
+  console.log("Ping the server. Toggle my Ready Status");
+  U = new UserMsg;
+  U.name = this.name;
+  U.code = 200;
+  connection.send(JSON.stringify(U))
+}
+
+function startGame(){
+  console.log("Requested the server to start a game.");
+  U = new UserMsg;
+  U.name = this.name;
+  U.code = 300;
+  connection.send(JSON.stringify(U));
+}
+
+function ping(){
+  U = new UserMsg;
+  U.name = this.name;
+  U.code = 400;
   connection.send(JSON.stringify(U));
 }
