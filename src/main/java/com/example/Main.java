@@ -254,17 +254,3 @@ public class Main extends WebSocketServer {
 }
 
 
-// export HTTP_PORT=9028
-// export WEBSOCKET_PORT=9128
-
-
-
-// To ssh into VPS
-// ssh sp24_group28@sp24.cse3310.org
-
-// server password:
-// 282828
-
-
-// access app
-// http://sp24.cse3310.org:9128/
