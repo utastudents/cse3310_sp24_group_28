@@ -94,6 +94,7 @@ connection.onmessage = function(evt){
         lobbyTable.appendChild(row);
       }
     }
+    // if we're reading a Game.java object
     else if("isOpen" in obj){
       document.getElementById("lobby").style.display = "none";
       document.getElementById("gameArea").style.display = "block";
@@ -104,6 +105,7 @@ connection.onmessage = function(evt){
           document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
         }
       }
+      console.log(obj.scoreList);
     }
     else{
       console.log("can't");

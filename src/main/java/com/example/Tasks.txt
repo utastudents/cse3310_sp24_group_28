@@ -6,7 +6,5 @@ List of known bugs as of 3/24:
 
 
 TODO LIST:
---> Rework some of the larger conditional blocks in Main.java and main.js
-    into functions to improve readability.
-
---> Add player name to page somehow once name is registered
+--> the Player Object by itself may need to get the websocket attribute removed
+--> Or give Game.java its own customized player list instead.

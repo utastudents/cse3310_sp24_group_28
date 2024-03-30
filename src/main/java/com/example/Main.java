@@ -142,19 +142,15 @@ public class Main extends WebSocketServer {
         
         if(U.code == 300){
             int playersReady= 0;
+            ArrayList<WebSocket> mailingList = new ArrayList<WebSocket>();
             // Loop through list of games,
             // return game information for the first game available
             for(int i = 0; i < 5; i++){
-                // if the game is open, loop through Lobby, get first 2-4 ready players
-                // and give them information for the game.
-                // if the game is open
                 if(games[i].isOpen == true){
                     // print out which
                     System.out.println(("Game " + i + " is available"));
-                    System.out.println("Game " + i + " is now closed.");
                     games[i].isOpen = false;
                     // loop through all players, queue up to 4 ready players.
-                    System.out.println("THE FOLLOWING PLAYERS WILL BE QUEUED.");
                     for(Player x: playerList){
                         if(x.isReady == true && playersReady < 4){
                             x.playerConn.send("You will be queued into a game.");
@@ -162,11 +158,14 @@ public class Main extends WebSocketServer {
                             x.gameNum = i;
                             System.out.println(x.name + " is now in " + x.gameNum);
                             playersReady++;
-                            String jsonString;
-                            jsonString = gson.toJson(games[i]);
-                            x.playerConn.send(jsonString);
-                            // add the player into games[i].playerList
+                            games[i].addEntries(x);
+                            mailingList.add(x.playerConn);
                         }
+                    }
+                    for(WebSocket connection : mailingList){
+                        String jsonString;
+                        jsonString = gson.toJson(games[i]);
+                        connection.send(jsonString);
                     }
                     //update lobby information
                     lobby.updateGamesAvailable(games);
@@ -235,16 +234,17 @@ public class Main extends WebSocketServer {
     }
 
     public static void main(String[] args) {
-
+        // http = 9080;
+        int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
         // Set up the http server
-        int port = 9080;
-        HttpServer H = new HttpServer(port, "./html");
+        HttpServer H = new HttpServer(httpport, "./html");
         H.start();
-        System.out.println("http Server started on port:" + port);
+        System.out.println("http Server started on port:" + httpport);
 
         // create and start the websocket server
 
-        port = 9880;
+        // WSport = 9880;
+        int port = Integer.parseInt(System.getenv("WEBSOCKET_PORT"));
         Main A = new Main(port);
         A.start();
         System.out.println("websocket Server started on port: " + port);
@@ -252,3 +252,7 @@ public class Main extends WebSocketServer {
         // testGame.placeWord();
     }
 }
+
+
+// export HTTP_PORT=9028
+// export WEBSOCKET_PORT=9128

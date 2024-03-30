@@ -1,5 +1,6 @@
 package com.example;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Timer;
 public class Game {
@@ -8,6 +9,7 @@ public class Game {
   public Matrix gameMatrix;
   public char[][] matrix = new char[30][30];
   //list of players inside each individual game
+  LinkedHashMap<String, Integer> scoreList;
   public boolean isOpen;
   // Timer timer;
 
@@ -21,8 +23,13 @@ public class Game {
         matrix[i][j] = c;
       }
     }
+    this.scoreList = new LinkedHashMap<String, Integer>();
   }
   
+  // Adds the players queued
+  public void addEntries(Player player){
+    scoreList.put(player.name, player.score);
+  }
 
   public void chooseCell(int playerIdx, int[] coord){
 
