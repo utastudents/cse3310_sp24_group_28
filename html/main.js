@@ -17,7 +17,7 @@ class UserMsg{
 
 
 //logs the URL of the websocket server, which sits on port 9880
-serverUrl = "ws://" + window.location.hostname + ":9880";
+serverUrl = "ws://" + window.location.hostname + ":9128";
 connection = new WebSocket(serverUrl);
 
 
