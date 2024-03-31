@@ -55,9 +55,9 @@ connection.onmessage = function(evt){
   //Try and parse a 2d JSON array out of this thing.
   try {
     let obj = JSON.parse(msg);
-
-    // if the object is a Lobby
+    
     console.log(msg);
+    // if the object is a Lobby
     if("playerNames" in obj){
       let lobbyTitle = "Lobby: " + obj.gamesAvailable;
       document.getElementById("lobbyTitle").innerHTML = lobbyTitle;
@@ -71,6 +71,8 @@ connection.onmessage = function(evt){
         document.getElementById("gameReadyMsg").style.display = "none";
         document.getElementById("startGameButton").disabled = true;
       }
+
+      // filling the lobby list
       for(let i = 0; i < obj.numPlayers; i++){
         // console.log(obj.playerNames[i]);
         let row = document.createElement("tr");
@@ -105,7 +107,21 @@ connection.onmessage = function(evt){
           document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
         }
       }
-      console.log(obj.scoreList);
+      let scoreBoard = document.getElementById("scoreBoard");
+      for(let i = 0; i < obj.numPlayers; i++){
+        let row = document.createElement("tr");
+        row.setAttribute("id", "scoreRow");
+        let nameCell = document.createElement("td");
+        nameCell.innerHTML = obj.names[i];
+        let scoreCell = document.createElement("td");
+        scoreCell.innerHTML = obj.scores[i];
+        nameCell.setAttribute("id", "playerCell");
+        scoreCell.setAttribute("id", "scoreCell");
+
+        row.appendChild(nameCell);
+        row.appendChild(scoreCell);
+        scoreBoard.appendChild(row);
+      }
     }
     else{
       console.log("can't");

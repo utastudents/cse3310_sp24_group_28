@@ -6,5 +6,4 @@ List of known bugs as of 3/24:
 
 
 TODO LIST:
---> the Player Object by itself may need to get the websocket attribute removed
---> Or give Game.java its own customized player list instead.
+--> make text input only appear after ws connection is made

@@ -8,6 +8,8 @@ public class Lobby {
   public int numPlayers = 0;
   public int numReady = 0;
   public int gamesAvailable = 0;
+
+  
   Lobby(ArrayList<Player> playerList){
     for(Player x: playerList){
       playerNames.add(x.name);

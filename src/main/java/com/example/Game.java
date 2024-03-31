@@ -5,17 +5,13 @@ import java.util.Random;
 import java.util.Timer;
 public class Game {
   // Possible attributes needed
-  // list of players
-  public Matrix gameMatrix;
-  public char[][] matrix = new char[30][30];
-  //list of players inside each individual game
-  LinkedHashMap<String, Integer> scoreList;
   public boolean isOpen;
-  // Timer timer;
-
+  public int numPlayers;
+  public char[][] matrix = new char[30][30];
+  public ArrayList<Integer> scores = new ArrayList<Integer>();
+  public ArrayList<String> names = new ArrayList<String>();
   public Game(){
     this.isOpen = true;
-    this.gameMatrix = new Matrix();
     for(int i = 0; i < 30; i++){
       for(int j = 0; j < 30; j++){
         Random r = new Random();
@@ -23,12 +19,14 @@ public class Game {
         matrix[i][j] = c;
       }
     }
-    this.scoreList = new LinkedHashMap<String, Integer>();
+    numPlayers = 0;
   }
   
   // Adds the players queued
   public void addEntries(Player player){
-    scoreList.put(player.name, player.score);
+    scores.add(player.score);
+    names.add(player.name);
+    numPlayers++;
   }
 
   public void chooseCell(int playerIdx, int[] coord){

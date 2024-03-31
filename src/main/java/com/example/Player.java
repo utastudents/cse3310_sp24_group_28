@@ -5,7 +5,6 @@ import org.java_websocket.WebSocket;
 public class Player {
   public String name;
   public int score;
-  public int index;
   public int gameNum;
   public boolean isReady;
   public WebSocket playerConn;

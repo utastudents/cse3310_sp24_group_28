@@ -234,7 +234,7 @@ public class Main extends WebSocketServer {
     }
 
     public static void main(String[] args) {
-        // http = 9080;
+        // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
@@ -243,7 +243,7 @@ public class Main extends WebSocketServer {
 
         // create and start the websocket server
 
-        // WSport = 9880;
+        // WSport = 9128;
         int port = Integer.parseInt(System.getenv("WEBSOCKET_PORT"));
         Main A = new Main(port);
         A.start();
