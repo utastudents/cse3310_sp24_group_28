@@ -2,7 +2,7 @@ List of known bugs as of 3/24:
 
 --> Player can send an empty name to the server, prevent this inside the submitName() in main.js\
 
-
+hello world
 
 
 TODO LIST:
