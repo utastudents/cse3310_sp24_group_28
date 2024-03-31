@@ -15,14 +15,13 @@ class UserMsg{
   endCoords = [];
 }
 
-
 //logs the URL of the websocket server, which sits on port 9880
-serverUrl = "ws://" + window.location.hostname + ":9128";
+serverUrl = "ws://" + window.location.hostname +":"+ (parseInt(location.port) + 100);
 connection = new WebSocket(serverUrl);
-
 
 connection.onopen = function (evt) {
   console.log("opened a websocket to the App.java Websocket Server");
+  document.getElementById("textInput").style.display = "inline";
   var grid = document.getElementById("grid");
   for (let i = 0; i < gridsize; i++) {
     var row = document.createElement("tr");
@@ -58,6 +57,8 @@ connection.onmessage = function(evt){
     
     console.log(msg);
     // if the object is a Lobby
+    
+
     if("playerNames" in obj){
       let lobbyTitle = "Lobby: " + obj.gamesAvailable;
       document.getElementById("lobbyTitle").innerHTML = lobbyTitle;

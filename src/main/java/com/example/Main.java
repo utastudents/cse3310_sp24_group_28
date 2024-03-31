@@ -89,7 +89,7 @@ public class Main extends WebSocketServer {
             // TODO: check for null names
             System.out.println("Current number of players: " + playerList.size());
             //if player count is less than 20, run through the allPlayers
-            if(playerList.size() < 10){
+            if(playerList.size() < 20){
                 // if the name isn't unique
                 if(checkName(U.name) == false){
                     System.out.println("Not unique name");
@@ -106,7 +106,6 @@ public class Main extends WebSocketServer {
                     }
                     System.out.printf("]\n");
                     conn.send("approved");
-
 
                     lobby.updateLobby(playerList);
                     lobby.updateGamesAvailable(games);
@@ -158,6 +157,7 @@ public class Main extends WebSocketServer {
                             x.gameNum = i;
                             System.out.println(x.name + " is now in " + x.gameNum);
                             playersReady++;
+                            x.index = games[i].numPlayers;
                             games[i].addEntries(x);
                             mailingList.add(x.playerConn);
                         }
