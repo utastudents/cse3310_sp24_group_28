@@ -1,4 +1,4 @@
-package com.example;
+package uta.cse3310;
 
 import java.io.File;
 import java.io.FileNotFoundException;

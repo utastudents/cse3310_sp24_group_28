@@ -1,5 +1,5 @@
-package com.example;
-
+package uta.cse3310;
+// uta.cse3310
 // Reworked project structure. compiling should work properly now
 // Consider this the main project folder.
 import java.net.InetSocketAddress;
