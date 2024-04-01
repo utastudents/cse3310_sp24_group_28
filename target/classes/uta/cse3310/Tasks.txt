@@ -1,0 +1,9 @@
+List of known bugs as of 3/24:
+
+--> Player can send an empty name to the server, prevent this inside the submitName() in main.js\
+
+Samriddha Kharel
+Endrit Smajli
+
+TODO LIST:
+--> populate scoreBoard with colors (based on index?);
