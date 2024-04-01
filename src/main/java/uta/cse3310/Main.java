@@ -73,8 +73,18 @@ public class Main extends WebSocketServer {
             System.out.printf("]\n");
         }
         System.out.println(conn + " has closed");
+        if(playerList.size() == 0){
+            System.out.println("[RESETTING...]");
+            // reset the games
+            for(int i = 0; i < 5; i++){
+                games[i] = new Game();
+                lobby.updateGamesAvailable(games);
+            }
+            // reset the lobby information;
+            lobby.updateLobby(playerList);
+        }
     }
-    
+    //lhk
     @Override
     public void onMessage(WebSocket conn, String message) {
         System.out.println(message);

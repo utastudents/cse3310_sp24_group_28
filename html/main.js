@@ -165,6 +165,9 @@ function scream(i,j){
 
 function submitName(){
   let x = document.getElementById("name").value;
+  if(x == null){
+    return;
+  } 
   this.name = x;
   console.log("Requested server for name: " + this.name);
   U = new UserMsg;
