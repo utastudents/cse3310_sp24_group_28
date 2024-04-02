@@ -1,7 +1,4 @@
 package uta.cse3310;
-// uta.cse3310
-// Reworked project structure. compiling should work properly now
-// Consider this the main project folder.
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -20,8 +17,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import java.util.Vector;
 public class Main extends WebSocketServer {
     // Vector<Game> games = new Vector<Game>();
     Game[] games = new Game[5];
@@ -84,7 +79,6 @@ public class Main extends WebSocketServer {
             lobby.updateLobby(playerList);
         }
     }
-    //lhk
     @Override
     public void onMessage(WebSocket conn, String message) {
         System.out.println(message);
@@ -96,7 +90,6 @@ public class Main extends WebSocketServer {
         // Possibly crush down the code inside this if statement to a function
         if(U.code == 100){
             System.out.println(U.name + " requesting player slot");
-            // TODO: check for null names
             System.out.println("Current number of players: " + playerList.size());
             //if player count is less than 20, run through the allPlayers
             if(playerList.size() < 20){
@@ -104,7 +97,6 @@ public class Main extends WebSocketServer {
                 if(checkName(U.name) == false){
                     System.out.println("Not unique name");
                     conn.send("unapproved");
-                    // respond accordingly with a message
                 }
                 // if the name is unique
                 else{
@@ -116,14 +108,11 @@ public class Main extends WebSocketServer {
                     }
                     System.out.printf("]\n");
                     conn.send("approved");
-
                     lobby.updateLobby(playerList);
                     lobby.updateGamesAvailable(games);
                     String jsonString;
                     jsonString = gson.toJson(lobby);
                     broadcast(jsonString);
-                    
-                    // Modify html for user to show their name at the top
                 }
             }
             else{
@@ -183,24 +172,10 @@ public class Main extends WebSocketServer {
                     String jsonString;
                     jsonString = gson.toJson(lobby);
                     broadcast(jsonString);
-                    
                     jsonString = gson.toJson(games[i]);
-
-
-
-                    // broadcast the game object to selected players
                     return;
                 }
             }
-
-            // if we're in this section of if300, then there are no games open
-            // broadcast this to all players in lobby that are ready.
-            // since any not ready players will either be in a game or have no need for this
-
-            // Optional: startGame button in interface is only active when there's enough players
-            //           and at least 1 game available.
-            // check number of open games every time we start a game
-            // if the number is zero,
             System.out.println("No games available.");
         }
     
@@ -221,7 +196,7 @@ public class Main extends WebSocketServer {
         //       depending on how whether the leaderboard lists all players since  
         //       server start or only active players  
         for(Player x : playerList){
-            if(x.name.equals(requestedName)){ return false; }
+            if(x.name.equals(requestedName)){ return false;}
         }
         return true;
     }
