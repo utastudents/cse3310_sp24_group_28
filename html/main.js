@@ -111,7 +111,10 @@ connection.onmessage = function(evt){
           document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
 
           // apply colors using Game.colorgrid;
-          if(colorgrid[i][j] == 'r'){
+          if(colorgrid[i][j] == 'w'){
+            document.getElementById(i + "," + j).style.backgroundColor = "white";
+          }
+          else if(colorgrid[i][j] == 'r'){
             document.getElementById(i + "," + j).style.backgroundColor = "red";
           }
           else if(colorgrid[i][j] == 'g'){

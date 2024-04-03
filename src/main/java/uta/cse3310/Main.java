@@ -267,7 +267,6 @@ public class Main extends WebSocketServer {
                     System.out.println("invalid slope.");
                     Integer[] clearVal = {-1,-1};
                     games[destGame].temps.set(index, clearVal);
-                    return;
                 }
                 // if(dx == 0 || dy == 0){
                 // }
