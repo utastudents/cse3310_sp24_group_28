@@ -9,6 +9,7 @@ public class Player {
   public int gameNum;
   public boolean isReady;
   public WebSocket playerConn;
+  
   Player(String name, WebSocket newConn){
     this.name = name;
     this.isReady = false;

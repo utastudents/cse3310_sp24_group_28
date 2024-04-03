@@ -8,6 +8,7 @@ public class Game {
   public boolean isOpen;
   public int numPlayers;
   public char[][] matrix = new char[30][30];
+  public char[][] colorGrid = new char[30][30];
   public ArrayList<Integer> scores = new ArrayList<Integer>();
   public ArrayList<String> names = new ArrayList<String>();
   public Game(){
@@ -17,6 +18,7 @@ public class Game {
         Random r = new Random();
         char c = (char)(r.nextInt(26) + 'a');
         matrix[i][j] = c;
+        colorGrid[i][j] = 'w';
       }
     }
     numPlayers = 0;

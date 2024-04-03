@@ -187,6 +187,44 @@ public class Main extends WebSocketServer {
                 }
             }
         }
+
+
+        // NEEDS HEAVY AMOUNT OF REWORK. THIS IS A BAREBONES PROTOTYPE
+        if(U.code == 500){
+            int destGame = 0;
+            int index = 0;
+            // User wants to highlight a cell. this may be revamped later to check if the endCoords is not null
+            System.out.println(U.name + " is highlighting a cell");
+            for(Player x: playerList){
+                // find who sent it
+                if(conn == x.playerConn){
+                    destGame = x.gameNum;
+                    index = x.index;
+                }
+            }
+            // modify game data based on player index;
+            if(index == 0){
+                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'r';
+            }
+            else if(index == 1){
+                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'g';
+            }
+            else if(index == 2){
+                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'b';
+            }
+            else if(index == 3){
+                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'y';
+            }
+            System.out.println("modifying data for players in " + destGame);
+            for(Player y: playerList){
+                // check if the player is in the destined game
+                if(games[destGame].names.contains(y.name)){
+                    String jsonString;
+                    jsonString = gson.toJson(games[destGame]);
+                    y.playerConn.send(jsonString);
+                }
+            }
+        }
     }
 
     public boolean checkName(String requestedName){

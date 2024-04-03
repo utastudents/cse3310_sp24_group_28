@@ -30,9 +30,9 @@ connection.onopen = function (evt) {
       cell.className = "clickable";
       cell.id = i + "," + j;
       cell.setAttribute("onclick",`scream(${i},${j})`);
-      cell.addEventListener("click", function () {
-        this.classList.toggle("activated");
-      });
+      // cell.addEventListener("click", function () {
+      //   this.classList.toggle("activated");
+      // });
       row.appendChild(cell);
     }
     grid.appendChild(row);
@@ -103,12 +103,26 @@ connection.onmessage = function(evt){
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
       wordgrid = obj.matrix;
+      colorgrid = obj.colorGrid;
       for (let i = 0; i < gridsize; i++) {
         for (let j = 0; j < gridsize; j++) {
           document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
+          if(colorgrid[i][j] == 'r'){
+            document.getElementById(i + "," + j).style.backgroundColor = "red";
+          }
+          else if(colorgrid[i][j] == 'g'){
+            document.getElementById(i + "," + j).style.backgroundColor = "green";
+          }
+          else if(colorgrid[i][j] == 'b'){
+            document.getElementById(i + "," + j).style.backgroundColor = "blue";
+          }
+          else if(colorgrid[i][j] == 'y'){
+            document.getElementById(i + "," + j).style.backgroundColor = "yellow";
+          }
         }
       }
       let scoreBoard = document.getElementById("scoreBoard");
+      scoreBoard.innerHTML = "";
       for(let i = 0; i < obj.numPlayers; i++){
         let row = document.createElement("tr");
         row.setAttribute("id", "scoreRow");
@@ -150,22 +164,32 @@ connection.onmessage = function(evt){
 function scream(i,j){
   console.log(`called [${i}][${j}]`);
   inputCoords.push([i,j]);
-  if(inputCoords.length == 2){
-    console.log("Start:" + "[" + inputCoords[0] + "]" + " End:" + "[" +inputCoords[1] + "]");
-    //parse input
-    // [i][0] = serves as y coord, [i][1] serves as x coordinate
-    dy = inputCoords[1][1] - inputCoords[0][1] 
-    dx = inputCoords[1][0] - inputCoords[0][0]
-    console.log(dy + "/" + dx);
-    // if dy or dx is zero, then it's vertical or horizontal
-    // if(inputCoords)
-    inputCoords = [];
-  }
+
+
+
+  U = new UserMsg;
+  U.name = this.name;
+  U.code = 500;
+  U.startCoords = [i,j];
+  U.endCoords = null;
+  connection.send(JSON.stringify(U));
+
+
+
+
+  // if(inputCoords.length == 2){
+  //   console.log("Start:" + "[" + inputCoords[0] + "]" + " End:" + "[" +inputCoords[1] + "]");
+  //   dy = inputCoords[1][1] - inputCoords[0][1] 
+  //   dx = inputCoords[1][0] - inputCoords[0][0]
+  //   console.log(dy + "/" + dx);
+  //   inputCoords = [];
+  // }
 }
 
 function submitName(){
   let x = document.getElementById("name").value;
-  if(x == null){
+  if(x == ""){
+    console.log("empty name");
     return;
   } 
   this.name = x;
