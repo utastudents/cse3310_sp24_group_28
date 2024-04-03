@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import org.json.simple.JSONObject; 
@@ -191,10 +192,14 @@ public class Main extends WebSocketServer {
 
         // NEEDS HEAVY AMOUNT OF REWORK. THIS IS A BAREBONES PROTOTYPE
         if(U.code == 500){
-            int destGame = 0;
+            color(U,conn,gson);
+        }
+    }
+
+    public void color(UserMsg U, WebSocket conn, Gson gson){
+        int destGame = 0;
             int index = 0;
-            // User wants to highlight a cell. this may be revamped later to check if the endCoords is not null
-            System.out.println(U.name + " is highlighting a cell");
+            // find out what game we're working with
             for(Player x: playerList){
                 // find who sent it
                 if(conn == x.playerConn){
@@ -202,20 +207,86 @@ public class Main extends WebSocketServer {
                     index = x.index;
                 }
             }
-            // modify game data based on player index;
-            if(index == 0){
-                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'r';
+            // User wants to highlight a cell.
+            if(U.endCoords == null){
+                System.out.println(U.name + " highlighted cell. Modify temps");
+                Integer[] tempVal = new Integer[2];
+                tempVal[0] = U.startCoords[0];
+                tempVal[1] = U.startCoords[1];
+                games[destGame].temps.set(index, tempVal);
             }
-            else if(index == 1){
-                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'g';
+            else{
+                int y = U.startCoords[0];
+                int y2 = U.endCoords[0];
+                int x = U.startCoords[1];
+                int x2 = U.endCoords[1];
+                System.out.printf("[%d, %d] -> [%d, %d]\n", y,x,y2,x2);
+                if(y == y2 && x == x2){
+                    // if the two coords are identical, null temp,
+                    System.out.println("identical coords. Modifying temps");
+                    Integer[] clearVal = {-1,-1};
+                    games[destGame].temps.set(index, clearVal);
+                }
+                else if(x2 - x == 0 || y2 - y == 0){
+                    // slope is either vertical or horizontal. check word
+                    int[] startCoords = {y,x};
+                    int[] endCoords = {y2,x2};
+                    boolean me = games[destGame].checkWord(startCoords,endCoords);
+                    if(me){
+                        System.out.println("straight checkout returned true. modify colorgrid.");
+                        // larger length is the non zero; use this for word length;
+                        int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));
+                        System.out.println(y2 + " " + y + " " + x2 + " " + x);
+                        if(y2-y != 0){
+                            // highlight up
+                            int end = Math.max(y2,y);
+                            for(int i = 0; i < length + 1; i++){
+                                System.out.printf("[%d, %d]\n", end -i, x);
+                                games[destGame].colorGrid[end - i][x] = indexToChar(index);
+                            }
+                        }
+                        else{
+                            // if we're horizontal, start from the end, highlight to start.
+                            int end = Math.max(x2,x);
+                            for(int i = 0; i < length + 1; i++){
+                                System.out.printf("[%d, %d]\n", end, x -i);
+                                games[destGame].colorGrid[y][end - i] = indexToChar(index);
+                            }
+                        }
+                        Integer[] clearVal = {-1,-1};
+                        games[destGame].temps.set(index, clearVal);
+                    }
+                    else{
+                        System.out.println("straight checkout return false. clear temps");
+                        Integer[] clearVal = {-1,-1};
+                        games[destGame].temps.set(index, clearVal);
+                    }
+                }
+                else{
+                    // slope is invalid; modify temps
+                    System.out.println("invalid slope.");
+                    Integer[] clearVal = {-1,-1};
+                    games[destGame].temps.set(index, clearVal);
+                    return;
+                }
+                // if(dx == 0 || dy == 0){
+                // }
+                // User chose a complete start and end of a word. check if the word is correct.
+                // if yes, modify colorgrid, otherwise, use temps.set(index, {-1,-1}) to remove the temp value for the player with the index;
             }
-            else if(index == 2){
-                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'b';
-            }
-            else if(index == 3){
-                games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'y';
-            }
-            System.out.println("modifying data for players in " + destGame);
+            // // modify colorgrid based on player index;
+            // if(index == 0){
+            //     games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'r';
+            // }
+            // else if(index == 1){
+            //     games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'g';
+            // }
+            // else if(index == 2){
+            //     games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'b';
+            // }
+            // else if(index == 3){
+            //     games[destGame].colorGrid[U.startCoords[0]][U.startCoords[1]] = 'y';
+            // }
             for(Player y: playerList){
                 // check if the player is in the destined game
                 if(games[destGame].names.contains(y.name)){
@@ -224,9 +295,25 @@ public class Main extends WebSocketServer {
                     y.playerConn.send(jsonString);
                 }
             }
-        }
     }
 
+    public char indexToChar(int index){
+        if(index == 0){
+            return 'r';
+        }
+        else if(index == 1){
+            return 'g';
+        }
+        else if(index == 2){
+            return 'b';
+        }
+        else if(index == 3){
+            return 'y';
+        }
+        else{
+            return '-';
+        }
+    }
     public boolean checkName(String requestedName){
         // check through the nicknames list
 

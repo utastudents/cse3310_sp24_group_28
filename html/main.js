@@ -3,7 +3,6 @@ let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
 inputCoords = [];
-
 // Player attributes?
 let name = null;
 
@@ -103,10 +102,15 @@ connection.onmessage = function(evt){
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
       wordgrid = obj.matrix;
+
+      // modify the game grid
       colorgrid = obj.colorGrid;
+      temps = obj.temps;
       for (let i = 0; i < gridsize; i++) {
         for (let j = 0; j < gridsize; j++) {
           document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
+
+          // apply colors using Game.colorgrid;
           if(colorgrid[i][j] == 'r'){
             document.getElementById(i + "," + j).style.backgroundColor = "red";
           }
@@ -119,8 +123,29 @@ connection.onmessage = function(evt){
           else if(colorgrid[i][j] == 'y'){
             document.getElementById(i + "," + j).style.backgroundColor = "yellow";
           }
+
         }
       }
+      // modify colorgrid based on Game.temps;
+      for(let i = 0; i < obj.numPlayers; i++){
+        // temps is something like [[1,1],[-1,-1]]
+        if(temps[i][0] != -1){
+          // modify color based on i based on temps[i][0] and temps[i][1]
+          if(i == 0){
+            document.getElementById(temps[i][0] + "," + temps[i][1]).style.backgroundColor = "red";
+          }
+          else if (i == 1){
+            document.getElementById(temps[i][0] + "," + temps[i][1]).style.backgroundColor = "green";
+          }
+          else if (i == 2){
+            document.getElementById(temps[i][0] + "," + temps[i][1]).style.backgroundColor = "blue";
+          }
+          else if (i == 3){
+            document.getElementById(temps[i][0] + "," + temps[i][1]).style.backgroundColor = "yellow";
+          }
+        }
+      }
+      // scoreBoard
       let scoreBoard = document.getElementById("scoreBoard");
       scoreBoard.innerHTML = "";
       for(let i = 0; i < obj.numPlayers; i++){
@@ -165,8 +190,21 @@ function scream(i,j){
   console.log(`called [${i}][${j}]`);
   inputCoords.push([i,j]);
 
-
-
+  if(inputCoords.length == 2){
+    console.log("Start:" + "[" + inputCoords[0] + "]" + " End:" + "[" +inputCoords[1] + "]");
+    dy = inputCoords[1][1] - inputCoords[0][1] 
+    dx = inputCoords[1][0] - inputCoords[0][0]
+    console.log(dy + "/" + dx);
+    U = new UserMsg;
+    U.name = this.name;
+    U.code = 500;
+    U.startCoords = inputCoords[0];
+    U.endCoords = inputCoords[1];
+    connection.send(JSON.stringify(U));
+    inputCoords = [];
+    return;
+  }
+  
   U = new UserMsg;
   U.name = this.name;
   U.code = 500;
@@ -175,15 +213,6 @@ function scream(i,j){
   connection.send(JSON.stringify(U));
 
 
-
-
-  // if(inputCoords.length == 2){
-  //   console.log("Start:" + "[" + inputCoords[0] + "]" + " End:" + "[" +inputCoords[1] + "]");
-  //   dy = inputCoords[1][1] - inputCoords[0][1] 
-  //   dx = inputCoords[1][0] - inputCoords[0][0]
-  //   console.log(dy + "/" + dx);
-  //   inputCoords = [];
-  // }
 }
 
 function submitName(){
