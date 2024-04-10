@@ -3,6 +3,7 @@ package uta.cse3310;
 public class UserMsg {
   int code;
   String name;
+  String message;
   int startCoords[];
   int endCoords[];
   int gameNum;
