@@ -137,13 +137,11 @@ h1{
   cursor: pointer;
 }
 #playerCell{
-  background-color: rgb(80, 95, 125);
   border: 1px solid;
   padding-left: 5px;
   width:70%;
 }
 #scoreCell{
-  background-color: cornflowerblue;
   border: 1px solid;
   width:30%;
   text-align: center;

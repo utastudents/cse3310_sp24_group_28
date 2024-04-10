@@ -164,7 +164,18 @@ connection.onmessage = function(evt){
         scoreCell.innerHTML = obj.scores[i];
         nameCell.setAttribute("id", "playerCell");
         scoreCell.setAttribute("id", "scoreCell");
-
+        if(i == 0){
+          nameCell.style.backgroundColor = "red";
+        }
+        else if (i == 1){
+          nameCell.style.backgroundColor = "green";
+        }
+        else if (i == 2){
+          nameCell.style.backgroundColor = "blue";
+        }
+        else if (i == 3){
+          nameCell.style.backgroundColor = "yellow";
+        }
         row.appendChild(nameCell);
         row.appendChild(scoreCell);
         scoreBoard.appendChild(row);
