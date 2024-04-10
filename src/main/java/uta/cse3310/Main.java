@@ -210,10 +210,11 @@ public class Main extends WebSocketServer {
             // User wants to highlight a cell.
             if(U.endCoords == null){
                 System.out.println(U.name + " highlighted cell. Modify temps");
-                Integer[] tempVal = new Integer[2];
-                tempVal[0] = U.startCoords[0];
-                tempVal[1] = U.startCoords[1];
-                games[destGame].temps.set(index, tempVal);
+                int[] firstCoord = {U.startCoords[0],U.startCoords[1]};
+                // tempVal[0] = U.startCoords[0];
+                // tempVal[1] = U.startCoords[1];
+                // games[destGame].temps.set(index, tempVal);
+                games[destGame].highlightCell(index, firstCoord);
             }
             else{
                 int y = U.startCoords[0];
@@ -262,6 +263,9 @@ public class Main extends WebSocketServer {
                         games[destGame].temps.set(index, clearVal);
                     }
                 }
+                // else if(Math.abs((y2-y)/(x2-x)) == 1){ // diagonal slope
+                //     // sys out what direction we're highlighting.
+                // } 
                 else{
                     // slope is invalid; modify temps
                     System.out.println("invalid slope.");
@@ -313,6 +317,7 @@ public class Main extends WebSocketServer {
             return '-';
         }
     }
+    
     public boolean checkName(String requestedName){
         // check through the nicknames list
 
@@ -351,14 +356,11 @@ public class Main extends WebSocketServer {
         System.out.println("http Server started on port:" + httpport);
 
         // create and start the websocket server
-
         // WSport = 9128;
         int port = Integer.parseInt(System.getenv("WEBSOCKET_PORT"));
         Main A = new Main(port);
         A.start();
         System.out.println("websocket Server started on port: " + port);
-        
-        // testGame.placeWord();
     }
 }
 

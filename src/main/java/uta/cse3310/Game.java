@@ -38,8 +38,11 @@ public class Game {
 
   }
 
-  public void chooseCell(int playerIdx, int[] coord){
-
+  public void highlightCell(int playerIdx, int[] coord){
+    Integer[] casted = new Integer[2];
+    casted[0] = coord[0];
+    casted[1] = coord[1];
+    temps.set(playerIdx, casted);
   }
 
   public void highlightWord(int playerIdx, int[] startCoords, int[] endCoords){
@@ -54,8 +57,6 @@ public class Game {
   public boolean checkWord(int[] startCoords, int[] endCoords){
     // parses coords, strings together word, checks if it's inside words used
     // Placeholder for testing purposes: randomly returns true or false
-    Random rand = new Random();
-    int num = rand.nextInt(10);
     return true;
   }
 
