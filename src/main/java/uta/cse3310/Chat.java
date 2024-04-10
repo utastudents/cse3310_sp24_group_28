@@ -1,4 +1,4 @@
-package com.example;
+package uta.cse3310;
 
 public class Chat {
   char[] name;

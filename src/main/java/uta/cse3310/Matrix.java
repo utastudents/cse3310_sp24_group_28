@@ -1,4 +1,4 @@
-package com.example;
+package uta.cse3310;
 
 import java.util.Random;
 import java.util.List;

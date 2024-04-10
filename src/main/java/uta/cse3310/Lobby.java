@@ -1,4 +1,4 @@
-package com.example;
+package uta.cse3310;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,10 @@ public class Lobby {
     }
   }
   public void updateLobby(ArrayList<Player> playerList){
-    playerNames.clear();
-    playerStatuses.clear();
-    numPlayers = 0;
-    numReady = 0;
+    this.playerNames.clear();
+    this.playerStatuses.clear();
+    this.numPlayers = 0;
+    this.numReady = 0;
     for(Player x: playerList){
       playerNames.add(x.name);
       playerStatuses.add(x.isReady);
