@@ -1,6 +1,9 @@
 package uta.cse3310;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Boolean;
 
 public class Matrix {
   public float density;
@@ -51,4 +54,28 @@ public class Matrix {
   public char[][] wordSearchMatrix(String filename){
     return matrix;
   }
+
+  
+  //TEST CASE BELOW:
+  public void testMatrix(){
+    char[][] grid = new char[50][50];
+  
+    List<String> wordBank = new ArrayList<String>();
+
+    wordBank.add("Ant");
+    wordBank.add("Zebra");
+    wordBank.add("Baboon");
+
+    //Matrix wordSearch = new Matrix(grid);
+
+    //wordSearch.horizontalWordInsert(false,null, grid);
+
+    //assertTrue(gridHasWords(grid, wordBank));
+  }
+
+  boolean gridHasWords(char[][] grid, List<String> wordBank){
+    return false;
+  }
+  
+
 }
