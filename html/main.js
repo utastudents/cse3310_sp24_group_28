@@ -3,13 +3,16 @@ let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
 inputCoords = [];
+var chatSocket = null;
 // Player attributes?
 let name = null;
+
 
 // Class for UserMessage
 class UserMsg{
   code = null;
   name = null;
+  message= null;
   startCoords = [];
   endCoords = [];
 }
@@ -98,6 +101,7 @@ connection.onmessage = function(evt){
     }
     // if we're reading a Game.java object
     else if("isOpen" in obj){
+      //document.getElementById("preLobbyChat").style.display = "none";
       document.getElementById("lobby").style.display = "none";
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
@@ -168,6 +172,7 @@ connection.onmessage = function(evt){
     }
     else{
       console.log("can't");
+
     }
   } 
   catch (error) {
@@ -178,6 +183,7 @@ connection.onmessage = function(evt){
       document.getElementById("name").value = "";
       document.getElementById("textInput").style.display = "none";
       document.getElementById("lobby").style.display = "block";
+    
     }
     else if(msg == "unapproved"){
       document.getElementById("serverMessage").innerHTML = "Name already taken";
@@ -186,6 +192,47 @@ connection.onmessage = function(evt){
   
   
 }
+
+  var chatServerUrl = "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100); 
+  chatSocket = new WebSocket(chatServerUrl);
+
+  chatSocket.addEventListener('open', () => {
+    console.log('Connected to chat server');
+  });
+
+  chatSocket.addEventListener('message', (event) => {
+    const message = JSON.parse(event.data);
+    displayMessage(this.name, this.message);
+  });
+
+function sendMessage() {
+  const messageInput = document.getElementById('chatInput');
+  const mm = messageInput.value.trim();
+  message = mm;
+  
+  if (message !== '') {
+    var chatMessage = {
+        code: 600, // Message code for chat messages
+        msg: message
+    };
+
+    chatSocket.send(JSON.stringify(chatMessage));
+    messageInput.value = ''; // Clear the input box after sending
+  }
+}
+
+
+function displayMessage(sender, content) {
+  // Check if both sender and content are defined
+  if (sender !== undefined && content !== undefined) {
+    const chatMessagesDiv = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.textContent = `${sender}: ${content}`;
+    chatMessagesDiv.appendChild(messageDiv);
+  }
+}
+
+
 
 //TO DO: set up functionality for validating the coords -> check slopes and stuff
   //     then send it to server for processing.
@@ -230,6 +277,7 @@ function submitName(){
   U.name = this.name;
   U.code = 100;
   connection.send(JSON.stringify(U));
+
 }
 
 function toggleReady(){
@@ -247,6 +295,8 @@ function startGame(){
   U.name = this.name;
   U.code = 300;
   connection.send(JSON.stringify(U));
+  
+
 }
 
 function ping(){
@@ -255,3 +305,4 @@ function ping(){
   U.code = 400;
   connection.send(JSON.stringify(U));
 }
+

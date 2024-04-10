@@ -87,6 +87,7 @@ public class Main extends WebSocketServer {
         Gson gson = builder.create();
         UserMsg U = gson.fromJson(message, UserMsg.class);
         System.out.println(U.name + " sent code " + U.code + " over " + conn);
+        
 
         // Possibly crush down the code inside this if statement to a function
         if(U.code == 100){
@@ -194,7 +195,36 @@ public class Main extends WebSocketServer {
         if(U.code == 500){
             color(U,conn,gson);
         }
+
+
+
+        if (U.code == 600) { // Assuming 600 is the code for a chat message
+            //System.out.println(message);
+            //System.out.println(U.name + " sent code " + U.code + " over " + conn);
+            handleChatMessage(U);
+        }
+        
+        
     }
+
+    
+
+    public void handleChatMessage(UserMsg userMsg) {
+        // Construct JSON object representing the chat message
+        JSONObject chatMessage = new JSONObject();
+        chatMessage.put("type", "chat");
+        chatMessage.put("sender", userMsg.name);
+        chatMessage.put("content", userMsg.message);
+
+        // Broadcast the chat message to all connected clients
+        String jsonString = chatMessage.toJSONString();
+        broadcast(jsonString);
+        
+        //System.out.println("Sender: " + userMsg.name);
+        //System.out.println("Message: " + userMsg.message);
+    }
+
+    
 
     public void color(UserMsg U, WebSocket conn, Gson gson){
         int destGame = 0;

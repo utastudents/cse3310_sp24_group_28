@@ -6,6 +6,13 @@ h1{
   background-color: white;
   text-align:center;
 }
+#textInput {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 #lobby{
   text-align: center;
 }
@@ -81,11 +88,53 @@ h1{
   background-color: rgb(255, 255, 255);
   height:30%;
   width:100%;
+
 }
+#chatMessages{
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1);
+  max-height: 400px; 
+  width: 265px; 
+  height: calc(70% - 20px); 
+
+}
+
+#chatMessages::-webkit-scrollbar {
+  width: 8px;
+}
+
+#chatMessages::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}
+
+
 #chat{
   background-color: rgb(229, 229, 229);
-  height:70%;
+  height: calc(70% - 20px); 
   width:100%;
+  padding: 10px;
+}
+
+#chatInput {
+  width: calc(100% - 70px);
+  margin-top: 10px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+#chatButton {
+  margin-top: 5px;
+  padding: 3px 6px;
+  cursor: pointer;
 }
 #playerCell{
   background-color: rgb(80, 95, 125);
