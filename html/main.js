@@ -231,7 +231,7 @@ connection.onmessage = function(evt){
   }
 
   function displayMessage(sender, content) {
-    // Display the received message
+    /// Display the received message
     if (sender !== undefined && content !== undefined) {
 
     const chatMessagesDiv = document.getElementById('chatMessages');
