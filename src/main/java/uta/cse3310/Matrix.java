@@ -1,5 +1,6 @@
 package uta.cse3310;
 
+
 import java.lang.StringBuilder;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,26 +8,21 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 
 //this class is based around a 50 x 50 grid 
 //everything else is just to keep track of this grid and the data withing
 public class Matrix {
-  public float density;               //percent of letters used for words (1.00 == every letter belongs to a word)
-  public ArrayList<String> wordList;       //a list of all the words available (loaded from a file)
-
-  //words is a class that holds information about each word inserted into the 'grid'
-  //includes the word in coresponding orientation
-  //includes its starting coordinate and its ending coordinate
-  public ArrayList<Words> usedWordList;   //a list of all the words used in the grid
-
-
-  public int numRows;                 //number of rows in grid
-  public int numCols;                 //number of columns in grid
-  public float randomness;            // still not sure what this is supposed to hold
-  public int numFillerCharacters;     //number of charachters used to fill in empty spaces in the grid
-  public char[][] grid;               //the grid itsefl 
-  public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters (capitalized ALPHABET)
+  public float density;                  //percent of letters used for words (1.00 == every letter belongs to a word)
+  public ArrayList<String> wordList;     //a list of all the words available (loaded from a file)
+  public ArrayList<Words> usedWordList;  //a list of all the words used/inserted in the grid
+  public int numRows;                    //number of rows in grid
+  public int numCols;                    //number of columns in grid
+  public float randomness;               // still not sure what this is supposed to hold
+  public int numFillerCharacters;        //number of charachters used to fill in empty spaces in the grid
+  public char[][] grid;                  //the grid itsefl 
+  public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters aka alphabette
   
 
   //non-default constructor
@@ -57,10 +53,10 @@ public class Matrix {
     //printFillerCharacters();  //debugging
 
     fillGrid();
-    printGrid();
+    //printGrid();
     numFillerCharacters = insertFillerChar();
     printGrid();
-    printUsedWordList();  
+    //printUsedWordList();  //debugging
 
   }
 
@@ -109,10 +105,6 @@ public class Matrix {
     return wordList.get(index);
   }
 
-  //doesnt need parameters displays 'this' instance of 'Matrix'
-  public void displayStats(){
-  }
-
   //fills up grid with words in all orinetations
   public void fillGrid(){
 
@@ -143,7 +135,7 @@ public class Matrix {
       String word = selectRandomWord();
       Random rand = new Random();
 
-      System.out.println("Word to be inserted: " + word);
+      //System.out.println("Word to be inserted: " + word);   //debugging
 
       int orientation = rand.nextInt(2);
       if(orientation == 0){  //regular word orietation
@@ -198,7 +190,7 @@ public class Matrix {
         diagonalWordInsert2(inverseWord);
       }
     }
-    System.out.println(calcDensity());  //debugging
+    //System.out.println(calcDensity());  //debugging
 
   }
   
@@ -266,7 +258,7 @@ public class Matrix {
   //inserts vertical words  also saves inserted words
   public void verticalWordInsert(String word){
 
-    System.out.println("Word Recieved: " + word);
+    //System.out.println("Word Recieved: " + word);   //debugging
 
     //select a random spot in the 50x50 grid to start the insert
     Random r = new Random();
@@ -283,7 +275,7 @@ public class Matrix {
       char[] letters = word.toCharArray();
       int x = r.nextInt(numCols);
       int y = r.nextInt(numRows);
-      System.out.println("Coordinate attempted: " + x + " " +  y);
+      //System.out.println("Coordinate attempted: " + x + " " +  y);    //debugging
 
       //check if it physically fits
       //we are horizontal so just in the X-direction
@@ -534,7 +526,7 @@ public class Matrix {
     }
   }
 
-  //prints the list of words used
+  //prints the list of words used in our grid
   public void printUsedWordList(){
     
     for(Words wrd : usedWordList){
@@ -542,6 +534,24 @@ public class Matrix {
     }
   }
 
+  //returns 'Words' structure if string word is found within grid
+  public Words wordLookUp(String word){
+
+    //check the word in 'Inverted' fashion
+    StringBuilder SBWord = new StringBuilder(word);
+    SBWord.reverse();
+    String inverseWord = SBWord.toString();
+   
+
+    for(Words w : usedWordList){
+      if(w.word.equals(word) || w.word.equals(inverseWord)){
+        return w;
+      }
+      
+    }
+
+    return null;
+  }
 
 
   //TEST CASE BELOW:
