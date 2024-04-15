@@ -213,36 +213,33 @@ connection.onmessage = function(evt){
 
   chatSocket.addEventListener('message', (event) => {
     const message = JSON.parse(event.data);
-    displayMessage(this.name, this.message);
+    displayMessage(message.sender, message.content);
   });
 
-function sendMessage() {
-  const messageInput = document.getElementById('chatInput');
-  const mm = messageInput.value.trim();
-  message = mm;
-  
-  if (message !== '') {
-    var chatMessage = {
-        code: 600, // Message code for chat messages
-        msg: message
-    };
-
-    chatSocket.send(JSON.stringify(chatMessage));
-    messageInput.value = ''; // Clear the input box after sending
+  function sendMessage() {
+    // Retrieve message content from the input field
+    const messageInput = document.getElementById('chatInput').value.trim();
+    if (messageInput !== '') {
+        const chatMessage = {
+            code: 600, 
+            name: this.name, 
+            message: messageInput 
+        };
+        chatSocket.send(JSON.stringify(chatMessage));
+        document.getElementById('chatInput').value = ''; 
+    }
   }
-}
 
+  function displayMessage(sender, content) {
+    /// Display the received message
+    if (sender !== undefined && content !== undefined) {
 
-function displayMessage(sender, content) {
-  // Check if both sender and content are defined
-  if (sender !== undefined && content !== undefined) {
     const chatMessagesDiv = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.textContent = `${sender}: ${content}`;
     chatMessagesDiv.appendChild(messageDiv);
   }
 }
-
 
 
 //TO DO: set up functionality for validating the coords -> check slopes and stuff
