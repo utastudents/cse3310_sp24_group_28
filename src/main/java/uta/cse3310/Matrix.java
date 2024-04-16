@@ -518,11 +518,6 @@ public class Matrix {
     }
     System.out.println();
   }
-<<<<<<< HEAD
-  
-
-
-=======
 
   //prints the full wordList, list of all possible words from a file 
   public void printWordList(){
@@ -581,5 +576,4 @@ public class Matrix {
     return false;
   }
   */
->>>>>>> b3f3cac997d9fc93d842f85235fc065aa051830d
 }
