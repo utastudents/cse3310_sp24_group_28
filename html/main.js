@@ -2,6 +2,8 @@ var connection = null;
 let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
+let timerActive = false;
+
 inputCoords = [];
 var chatSocket = null;
 // Player attributes?
@@ -309,6 +311,13 @@ function startGame(){
 
 }
 function startTimer() {
+
+  if (timerActive) {
+      console.log("restart the timer blocked.");
+      return;
+  }
+  timerActive = true;
+  console.log("Timer started.");
   let duration = 50 * 60; // 50 minutes converted to seconds
 
   const timerDiv = document.getElementById('timer');
@@ -324,6 +333,7 @@ function startTimer() {
           setTimeout(updateDisplay, 1000); // Schedule the next update
       } else {
           timerDiv.textContent = 'Time Over!';
+          timerActive = false; 
       }
   }
 
