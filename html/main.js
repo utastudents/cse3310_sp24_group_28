@@ -2,6 +2,8 @@ var connection = null;
 let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
+let timerActive = false;
+
 inputCoords = [];
 var chatSocket = null;
 // Player attributes?
@@ -106,7 +108,7 @@ connection.onmessage = function(evt){
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
       wordgrid = obj.matrix;
-
+      startTimer();
       // modify the game grid
       colorgrid = obj.colorGrid;
       temps = obj.temps;
@@ -233,11 +235,13 @@ connection.onmessage = function(evt){
   function displayMessage(sender, content) {
     /// Display the received message
     if (sender !== undefined && content !== undefined) {
-
+      
     const chatMessagesDiv = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.textContent = `${sender}: ${content}`;
     chatMessagesDiv.appendChild(messageDiv);
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+
   }
 }
 
@@ -306,6 +310,39 @@ function startGame(){
   
 
 }
+function startTimer() {
+
+  if (timerActive) {
+      console.log("restart the timer blocked.");
+      return;
+  }
+  timerActive = true;
+  console.log("Timer started.");
+  let duration = 50 * 60; // 50 minutes converted to seconds
+
+  const timerDiv = document.getElementById('timer');
+
+  function updateDisplay() {
+      const minutes = Math.floor(duration / 60);
+      const seconds = duration % 60;
+
+      // Update the timer display with leading zeros
+      timerDiv.textContent = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+      duration--; // Decrement the timer
+      if (duration >= 0) {
+          setTimeout(updateDisplay, 1000); // Schedule the next update
+      } else {
+          timerDiv.textContent = 'Time Over!';
+          timerActive = false; 
+      }
+  }
+
+  updateDisplay(); // Start the countdown
+}
+
+
+
+
 
 function ping(){
   U = new UserMsg;
