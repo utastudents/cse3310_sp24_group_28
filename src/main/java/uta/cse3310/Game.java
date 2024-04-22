@@ -1,8 +1,13 @@
 package uta.cse3310;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Timer;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 public class Game {
   // Possible attributes needed
   public boolean isOpen;
@@ -46,12 +51,16 @@ public class Game {
   }
 
   public void highlightWord(int playerIdx, int[] startCoords, int[] endCoords){
-
+    
   }
 
-  public void playerSetReady(){
+  public void playerSetReady(ArrayList<Player> playerList){
     // check number of ready players every time this thing is called, start the game immediately the moment it hits 2
-
+    Lobby readyplayer = new Lobby(playerList);
+      if(readyplayer.numReady == 2){
+          startGame();
+      }
+    
   }
 
   public boolean checkWord(int[] startCoords, int[] endCoords){
@@ -61,10 +70,9 @@ public class Game {
   }
 
 
-  public void startGame(){
+  public void startGame(){ 
   }
 
   public void endGame(){
-
   }
 }//class's curly
