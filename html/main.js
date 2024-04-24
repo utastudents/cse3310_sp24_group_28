@@ -2,7 +2,8 @@ var connection = null;
 let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
-let timerActive = false;
+var timerActive = false;
+var endTime;
 
 inputCoords = [];
 var chatSocket = null;
@@ -310,38 +311,47 @@ function startGame(){
   
 
 }
-function startTimer() {
 
-  if (timerActive) {
-      console.log("restart the timer blocked.");
-      return;
+  function startTimer() {
+    if (timerActive) {
+        console.log("Timer is already running.");
+        return; 
+    }
+
+    console.log("Starting timer");
+    timerActive = true; // Set timer as active
+
+    const duration = 60 * 5 ; // 5 minutes in seconds
+    endTime = Date.now() + duration * 1000; // Calculate end time
+
+    function updateTimer() {
+        var currentTime = Date.now();
+        var timeLeft = endTime - currentTime;
+
+        if (timeLeft > 0) {
+            displayTimeLeft(timeLeft);
+            setTimeout(updateTimer, 1000);
+        } 
+        else {
+            console.log("Timer finished.");
+            displayTimeFinished();
+            timerActive = false; // Reset timer active status
+        }
+    }
+
+    updateTimer(); 
   }
-  timerActive = true;
-  console.log("Timer started.");
-  let duration = 50 * 60; // 50 minutes converted to seconds
 
-  const timerDiv = document.getElementById('timer');
-
-  function updateDisplay() {
-      const minutes = Math.floor(duration / 60);
-      const seconds = duration % 60;
-
-      // Update the timer display with leading zeros
-      timerDiv.textContent = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
-      duration--; // Decrement the timer
-      if (duration >= 0) {
-          setTimeout(updateDisplay, 1000); // Schedule the next update
-      } else {
-          timerDiv.textContent = 'Time Over!';
-          timerActive = false; 
-      }
+  function displayTimeLeft(timeLeft) {
+    var secondsLeft = Math.floor(timeLeft / 1000);
+    var minutes = Math.floor(secondsLeft / 60);
+    var seconds = secondsLeft % 60;
+    document.getElementById('timer').textContent = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
   }
 
-  updateDisplay(); // Start the countdown
-}
-
-
-
+  function displayTimeFinished() {
+    document.getElementById('timer').textContent = "Time Over";
+  }
 
 
 function ping(){

@@ -6,13 +6,17 @@ h1{
   background-color: white;
   text-align:center;
 }
+
 #textInput {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  
+  position: absolute;
+  top: calc(50% + 130px);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 #lobby{
   text-align: center;
