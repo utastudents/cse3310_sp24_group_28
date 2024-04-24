@@ -30,6 +30,9 @@ public class Lobby {
       }
       numPlayers++;
     }
+
+    
+    
   }
 
   public void updateGamesAvailable(Game[] games){
@@ -39,9 +42,27 @@ public class Lobby {
         gamesAvailable++;
       }
     }
+    
   }
-  public void startGame(){}
-  public void displayStatus(){}
-  public void displayPlayerName(){}
+
+  public void startGame(Player player){
+    //after a player as joined a game, their status be ingame
+    player.ingame = true;
+    player.isReady = false;
+  }
+  public void displayStatus(Player player){
+    if(player.isReady == false && player.ingame == false){
+      System.out.println("Status: not ready");
+    }
+    else if(player.isReady == true && player.ingame == false){
+      System.out.println("Status: ready");
+    }
+    else if(player.isReady == false && player.ingame == true){
+      System.out.println("Status: ingame");
+    }
+  }
+  public void displayPlayerName(Player player){
+    System.out.println("Player: " + player.name);
+  }
 
 }
