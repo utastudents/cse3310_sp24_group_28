@@ -108,7 +108,7 @@ connection.onmessage = function(evt){
       document.getElementById("lobby").style.display = "none";
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
-      wordgrid = obj.matrix;
+      wordgrid = obj.matrixDup;
       startTimer();
       // modify the game grid
       colorgrid = obj.colorGrid;

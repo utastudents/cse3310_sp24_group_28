@@ -271,8 +271,8 @@ public class Main extends WebSocketServer {
                 // slope is either vertical or horizontal. check word
                 int[] startCoords = {y,x};
                 int[] endCoords = {y2,x2};
-                boolean me = games[destGame].checkWord(startCoords,endCoords);
-                if(me){
+                boolean isWord = games[destGame].playerFoundWord(startCoords, endCoords);
+                if(isWord){
                     System.out.println("straight checkout returned true. modify colorgrid.");
                     // larger length is the non zero; use this for word length;
                     int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));

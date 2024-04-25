@@ -98,10 +98,7 @@ public class Game {
     public boolean verifyWordCoords(int xStart, int yStart, int xEnd, int yEnd){
 
         //Alwasy have to check inverse of every word
-        StringBuilder SBWord = new StringBuilder(word); 
-        SBWord.reverse();
-        String inverseWord = SBWord.toString();
-
+        
 
         //check if word has not been found yet
         if(wordsFound.isEmpty()){
@@ -109,18 +106,50 @@ public class Game {
         }
         else{
             for(Words w : wordsFound){
-                if(w.word.equals(word) || w.word.equals(inverseWord)){
-                    //word has been previously found
+
+                int xS = w.x_startPoint;
+                int yS = w.y_startPoint;
+                int xE = w.x_endPoint;
+                int yE = w.y_endPoint;
+                // if coordinates match, then we've already found this word
+                if(xStart == xS && xEnd == xE && yStart == yS && yEnd == yE){
+                    return false;
+                    // word already found
+                }
+                else if(xStart == xE && xEnd == xS && yStart == yE && yEnd == yS){
                     return false;
                 }
             }
         }
 
         //look up the word within the grid
-        if(matrix.wordLookUp(word) != null){    //returns a 'Words' object if found
-            wordsFound.add(matrix.wordLookUp(word));
-            return true;
+        // if(matrix.wordLookUp(word) != null){    //returns a 'Words' object if found
+        //     wordsFound.add(matrix.wordLookUp(word));
+        //     return true;
+        // }
+
+
+        //try and find the word picked by player within our grid
+        //matrix.wordsUsed is the list of all words within our grid
+        for(Words w: matrix.usedWordList){
+
+                int xS = w.x_startPoint;
+                int yS = w.y_startPoint;
+                int xE = w.x_endPoint;
+                int yE = w.y_endPoint;
+                // if coordinates match, then we've already found this word
+                if(xStart == xS && xEnd == xE && yStart == yS && yEnd == yE){
+                    return true;
+                    // word already found
+                }
+                else if(xStart == xE && xEnd == xS && yStart == yE && yEnd == yS){
+                    return true;
+                }
+
+
         }
+
+
 
         return false;
     }
@@ -273,12 +302,12 @@ public class Game {
     //word found by a player returns true if word is adds points to player
     public boolean playerFoundWord(Player p, int[] startCoords, int[] endCoords){
 
-        // if(verifyWord(word)){
-        //     //word verified and added to 'wordsFound'
-        // }
-        // else{
-        //     return false;
-        // }
+        if(verifyWordCoords(startCoords[1], startCoords[0], endCoords[1], endCoords[0])){
+            //word verified and added to 'wordsFound'
+        }
+        else{
+            return false;
+        }
         //go from coord to figureing out if the word is valid 
         //recreate word validation via coordinates
 
