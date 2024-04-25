@@ -13,6 +13,7 @@ import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import org.json.simple.JSONObject; 
+import org.json.simple.JSONArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -206,9 +207,15 @@ public class Main extends WebSocketServer {
         
         
     }
-
     
-
+    public void displayWordsInBank(){
+        JSONObject words = new JSONObject();
+        //JSONArray wordsArray = new JSONArray(wordBankList); //These two errors are cause because they cant find the symbol.
+        //words.put("Word Bank", wordArray);                  //Solution may be that we need to move methods from Matrix file to here.
+        String jsonBank = words.toJSONString();
+        broadcast(jsonBank);
+    }
+    
     public void handleChatMessage(UserMsg userMsg) {
         // Construct JSON object representing the chat message
         JSONObject chatMessage = new JSONObject();

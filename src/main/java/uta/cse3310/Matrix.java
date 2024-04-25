@@ -525,7 +525,29 @@ public class Matrix {
       System.out.println(word);
     }
   }
+  
+  public List<String> wordBankList;
 
+  public void wordBank(){
+    wordBankList = new ArrayList<>();
+  }
+
+  public void fillWordBank(List<Words> usedWordList){
+    wordBankList.clear();
+
+    for(Words w : usedWordList){
+      wordBankList.add(w.word);
+    }
+  }
+
+  public void displayWordBank(){
+    System.out.println("Word Bank:\n");
+
+    for(String word : wordBankList){
+      System.out.println(" " + word);
+    }
+  }
+ 
   //prints the list of words used in our grid
   public void printUsedWordList(){
     
