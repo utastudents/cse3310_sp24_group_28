@@ -9,11 +9,13 @@ public class Player {
   public int gameNum;
   public boolean isReady;
   public WebSocket playerConn;
+  public char color;    //keep track of players color
   
   Player(String name, WebSocket newConn){
     this.name = name;
     this.isReady = false;
     this.playerConn = newConn;
     this.score = 0;
+    this.color = 'W';   //default to white
   }
 }
