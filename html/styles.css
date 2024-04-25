@@ -6,12 +6,17 @@ h1{
   background-color: white;
   text-align:center;
 }
+
 #textInput {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  position: absolute;
+  top: calc(50% + 130px);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 #lobby{
   text-align: center;
@@ -69,7 +74,7 @@ h1{
   float:left;
 }
 #midBox{
-  background-color: rgb(137, 180, 169);
+  background-color: rgb(255, 255, 255);
   height:790px;
   width:300px;
   margin-right: 5px;
@@ -83,6 +88,17 @@ h1{
   text-align: center;
   float:left;
 }
+
+#timer {
+  font-size: 24px;
+  color: white;
+  background-color: white; 
+  text-align: center;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px; 
+}
+
 
 #scoreBoard{
   background-color: rgb(255, 255, 255);

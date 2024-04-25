@@ -2,6 +2,9 @@ var connection = null;
 let wordgrid = null;
 var serverUrl;
 let gridsize = 30;
+var timerActive = false;
+var endTime;
+
 inputCoords = [];
 var chatSocket = null;
 // Player attributes?
@@ -106,7 +109,7 @@ connection.onmessage = function(evt){
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
       wordgrid = obj.matrix;
-
+      startTimer();
       // modify the game grid
       colorgrid = obj.colorGrid;
       temps = obj.temps;
@@ -233,11 +236,13 @@ connection.onmessage = function(evt){
   function displayMessage(sender, content) {
     /// Display the received message
     if (sender !== undefined && content !== undefined) {
-
+      
     const chatMessagesDiv = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.textContent = `${sender}: ${content}`;
     chatMessagesDiv.appendChild(messageDiv);
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+
   }
 }
 
@@ -306,6 +311,48 @@ function startGame(){
   
 
 }
+
+  function startTimer() {
+    if (timerActive) {
+        console.log("Timer is already running.");
+        return; 
+    }
+
+    console.log("Starting timer");
+    timerActive = true; // Set timer as active
+
+    const duration = 60 * 5 ; // 5 minutes in seconds
+    endTime = Date.now() + duration * 1000; // Calculate end time
+
+    function updateTimer() {
+        var currentTime = Date.now();
+        var timeLeft = endTime - currentTime;
+
+        if (timeLeft > 0) {
+            displayTimeLeft(timeLeft);
+            setTimeout(updateTimer, 1000);
+        } 
+        else {
+            console.log("Timer finished.");
+            displayTimeFinished();
+            timerActive = false; // Reset timer active status
+        }
+    }
+
+    updateTimer(); 
+  }
+
+  function displayTimeLeft(timeLeft) {
+    var secondsLeft = Math.floor(timeLeft / 1000);
+    var minutes = Math.floor(secondsLeft / 60);
+    var seconds = secondsLeft % 60;
+    document.getElementById('timer').textContent = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+  }
+
+  function displayTimeFinished() {
+    document.getElementById('timer').textContent = "Time Over";
+  }
+
 
 function ping(){
   U = new UserMsg;
