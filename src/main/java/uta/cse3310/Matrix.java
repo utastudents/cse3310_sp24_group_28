@@ -1,3 +1,4 @@
+package uta.cse3310;
 import java.lang.StringBuilder;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -59,7 +60,7 @@ public class Matrix {
     //printGrid();  //prints grid before filler charachters inserted
     numFillerCharacters = insertFillerChar();
     printGrid();    //prints completed grid //debugging
-    //printUsedWordList();  //debugging
+    printUsedWordList();  //debugging
 
   }
 

@@ -376,6 +376,7 @@ public class Main extends WebSocketServer {
     }
 
     public static void main(String[] args) {
+        System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
         // Set up the http server

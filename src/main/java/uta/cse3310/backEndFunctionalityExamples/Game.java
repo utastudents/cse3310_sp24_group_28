@@ -91,6 +91,40 @@ public class Game {
         return false;
     }
 
+    //verifies word has not been found yet 
+    //verifies word is within our grid
+    //adds valid words to the 'wordsFound' list 
+    //return true if valid,  false if not valid
+    public boolean verifyWordCoords(int xStart, int yStart, int xEnd, int yEnd){
+
+        //Alwasy have to check inverse of every word
+        StringBuilder SBWord = new StringBuilder(word); 
+        SBWord.reverse();
+        String inverseWord = SBWord.toString();
+
+
+        //check if word has not been found yet
+        if(wordsFound.isEmpty()){
+            //proceed since word hasnt been found yet
+        }
+        else{
+            for(Words w : wordsFound){
+                if(w.word.equals(word) || w.word.equals(inverseWord)){
+                    //word has been previously found
+                    return false;
+                }
+            }
+        }
+
+        //look up the word within the grid
+        if(matrix.wordLookUp(word) != null){    //returns a 'Words' object if found
+            wordsFound.add(matrix.wordLookUp(word));
+            return true;
+        }
+
+        return false;
+    }
+
     //verify player belongs to this game
     //returns true if valid false if player doesnt belong
     public boolean verifyPlayer(Player player){
@@ -237,21 +271,25 @@ public class Game {
     }
 
     //word found by a player returns true if word is adds points to player
-    public boolean playerFoundWord(Player p, String word){
+    public boolean playerFoundWord(Player p, int[] startCoords, int[] endCoords){
 
-        if(verifyPlayer(p)){
-            //player was verified
-        }
-        else{
-            return false;
-        }
+        // if(verifyWord(word)){
+        //     //word verified and added to 'wordsFound'
+        // }
+        // else{
+        //     return false;
+        // }
+        //go from coord to figureing out if the word is valid 
+        //recreate word validation via coordinates
 
-        if(verifyWord(word)){
-            //word verified and added to 'wordsFound'
-        }
-        else{
-            return false;
-        }
+        // int[] startCoords = [yS, xS]
+        // int[] endCoords = [yE, xE]
+        //Thanh int xS = startCoords[1];
+
+        //words xS, yS, xE, yE
+        //
+
+
 
         //edit score
         p.score += 1;

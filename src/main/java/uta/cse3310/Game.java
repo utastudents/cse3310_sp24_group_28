@@ -43,42 +43,19 @@ public class Game {
     this.players = players;
     for(Player p: players){
       p.gameNum =  gameNum;
-    }
-
-    //assign color to players
-    //R(red), Y(yellow), B(blue), Z(grey)
-    if(players.size() == 2){
-      players.get(0).color = 'R';
-      players.get(1).color = 'Y';
-
-    }
-    else if(players.size() == 3){
-        players.get(0).color = 'R';
-        players.get(1).color = 'Y';
-        players.get(2).color = 'B';
-          
-    }
-    else{
-        players.get(0).color = 'R';
-        players.get(1).color = 'Y';
-        players.get(2).color = 'B';
-        players.get(3).color = 'Z';
-    }
-      
+    }    
 
   }
 
   public Game(){
     this.players = new ArrayList<Player>();
-
-
     this.isOpen = true;
     for(int i = 0; i < 30; i++){
       for(int j = 0; j < 30; j++){
         //Random r = new Random();
         //char c = (char)(r.nextInt(26) + 'a');
         //matrix[i][j] = c;   //no longer need this randomly created matrix
-        colorGrid[i][j] = 'w';
+        colorGrid[i][j] = 'W';
       }
     }
     numPlayers = 0;
