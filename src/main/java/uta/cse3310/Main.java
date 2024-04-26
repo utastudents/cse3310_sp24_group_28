@@ -307,11 +307,12 @@ public class Main extends WebSocketServer {
                 int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));
                 int endY = U.endCoords[0];
                 int endX = U.endCoords[1];
-                int[] startCoords = {x,y};
-                int[] endCoords = {x2,y2};
+                int[] startCoords = {y,x};
+                int[] endCoords = {y2,x2};
                 System.out.printf("%d/%d ", y2-y, x2-x);
                 boolean isWord = games[destGame].playerFoundWord(startCoords,endCoords);
                 if(isWord){
+                    System.out.println("found diagonal word.");
                     if(y2-y > 0 && x2-x > 0){
                         System.out.println("Down Right.");
                         for(int i = 0; i < length + 1; i++){
@@ -359,7 +360,6 @@ public class Main extends WebSocketServer {
                 y.playerConn.send(jsonString);
             }
         }
-        System.out.println(games[destGame].temps.toString());
     }
 
 
