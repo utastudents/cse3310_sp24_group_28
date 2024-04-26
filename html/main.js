@@ -201,6 +201,8 @@ connection.onmessage = function(evt){
     }
     else if(msg == "unapproved"){
       document.getElementById("serverMessage").innerHTML = "Name already taken";
+      document.getElementById("serverMessage").style.display = "block";
+
     }
   }
   
