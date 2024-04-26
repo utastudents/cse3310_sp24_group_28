@@ -95,7 +95,7 @@ public class Game {
     //verifies word is within our grid
     //adds valid words to the 'wordsFound' list 
     //return true if valid,  false if not valid
-    public boolean verifyWordCoords(int xStart, int yStart, int xEnd, int yEnd){
+    public Words verifyWordCoords(int xStart, int yStart, int xEnd, int yEnd){
 
         //Alwasy have to check inverse of every word
         
@@ -113,11 +113,11 @@ public class Game {
                 int yE = w.y_endPoint;
                 // if coordinates match, then we've already found this word
                 if(xStart == xS && xEnd == xE && yStart == yS && yEnd == yE){
-                    return false;
+                    return null;
                     // word already found
                 }
                 else if(xStart == xE && xEnd == xS && yStart == yE && yEnd == yS){
-                    return false;
+                    return null;
                 }
             }
         }
@@ -139,11 +139,11 @@ public class Game {
                 int yE = w.y_endPoint;
                 // if coordinates match, then we've already found this word
                 if(xStart == xS && xEnd == xE && yStart == yS && yEnd == yE){
-                    return true;
+                    return w;
                     // word already found
                 }
                 else if(xStart == xE && xEnd == xS && yStart == yE && yEnd == yS){
-                    return true;
+                    return w;
                 }
 
 
@@ -151,7 +151,7 @@ public class Game {
 
 
 
-        return false;
+        return null;
     }
 
     //verify player belongs to this game
@@ -302,7 +302,8 @@ public class Game {
     //word found by a player returns true if word is adds points to player
     public boolean playerFoundWord(Player p, int[] startCoords, int[] endCoords){
 
-        if(verifyWordCoords(startCoords[1], startCoords[0], endCoords[1], endCoords[0])){
+        if(verifyWordCoords(startCoords[1], startCoords[0], endCoords[1], endCoords[0]) != null){
+            wordsFound.add(verifyWordCoords(startCoords[1], startCoords[0], endCoords[1], endCoords[0]));
             //word verified and added to 'wordsFound'
         }
         else{
@@ -321,7 +322,7 @@ public class Game {
 
 
         //edit score
-        p.score += 1;
+        p.score += 1;   // possible change here --------------------------
         //highlight cooresponding portion of the colorGrid
         Words w = wordsFound.get(wordsFound.size() - 1);
         highlight(w, p.color);

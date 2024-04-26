@@ -76,6 +76,7 @@ public class Game {
     casted[0] = coord[0];
     casted[1] = coord[1];
     temps.set(playerIdx, casted);
+    System.out.println(temps.get(playerIdx)[0] + " " + temps.get(playerIdx)[1]);
   }
   public boolean checkWord(int[] startCoords, int[] endCoords){
     // parses coords, strings together word, checks if it's inside words used
@@ -343,14 +344,11 @@ public class Game {
 
       //words xS, yS, xE, yE
       //
-
-
-
       //edit score
       // p.score += 1;   // possible change here --------------------------
       //highlight cooresponding portion of the colorGrid
-      Words w = wordsFound.get(wordsFound.size() - 1);
-      highlight(w, 'W');
+    //   Words w = wordsFound.get(wordsFound.size() - 1);
+    //   highlight(w, 'W');
       
 
       return true;
