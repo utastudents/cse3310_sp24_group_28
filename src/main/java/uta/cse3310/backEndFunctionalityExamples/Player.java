@@ -2,7 +2,7 @@ public class Player {
     public String name;
     public int score;
     public int index;
-    public int gameID;
+    public int gameID;  //same as gameNum
     public boolean isReady;
     public char color;
     

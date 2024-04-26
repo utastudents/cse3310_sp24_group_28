@@ -18,8 +18,8 @@ public class GameTest extends TestCase {
 
         assertTrue(game.isOpen);
         assertEquals(0, game.numPlayers);
-        assertEquals(30, game.matrix.length);
-        assertEquals(30, game.matrix[0].length);
+        assertEquals(30, game.matrixDup.length);
+        assertEquals(30, game.matrixDup[0].length);
         assertEquals(30, game.colorGrid.length);
         assertEquals(30, game.colorGrid[0].length);
         assertEquals(0, game.temps.size());

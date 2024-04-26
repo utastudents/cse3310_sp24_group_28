@@ -1,6 +1,4 @@
 package uta.cse3310;
-
-
 import java.lang.StringBuilder;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,6 +12,9 @@ import java.lang.String;
 //this class is based around a 50 x 50 grid 
 //everything else is just to keep track of this grid and the data withing
 public class Matrix {
+  
+  public int sharedLetterCount;         //keeps count of how many letters are shared by two words
+
   public float density;                  //percent of letters used for words (1.00 == every letter belongs to a word)
   public ArrayList<String> wordList;     //a list of all the words available (loaded from a file)
   public ArrayList<Words> usedWordList;  //a list of all the words used/inserted in the grid
@@ -21,7 +22,7 @@ public class Matrix {
   public int numCols;                    //number of columns in grid
   public float randomness;               // still not sure what this is supposed to hold
   public int numFillerCharacters;        //number of charachters used to fill in empty spaces in the grid
-  public char[][] grid;                  //the grid itsefl 
+  public char[][] grid;                  //the grid of words itsefl 
   public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters aka alphabette
   
 
@@ -31,6 +32,9 @@ public class Matrix {
 
   //default constructor //HARDCODED FILE TO READ FROM
   Matrix(){
+
+    sharedLetterCount = 0;
+
     //initiate all values to a default
     density = 0;
 
@@ -39,8 +43,8 @@ public class Matrix {
     //printWordList();  //debugging
 
     usedWordList = new ArrayList<Words>();
-    numRows = 50;
-    numCols = 50;
+    numRows = 30;
+    numCols = 30;
     randomness = 0;
     numFillerCharacters = 0;
 
@@ -53,10 +57,10 @@ public class Matrix {
     //printFillerCharacters();  //debugging
 
     fillGrid();
-    //printGrid();
+    //printGrid();  //prints grid before filler charachters inserted
     numFillerCharacters = insertFillerChar();
-    printGrid();
-    //printUsedWordList();  //debugging
+    printGrid();    //prints completed grid //debugging
+    printUsedWordList();  //debugging
 
   }
 
@@ -230,8 +234,7 @@ public class Matrix {
         for(int k = x; k <= x_endpoint; k ++){  
 
           if(grid[y][k] == '0' || grid[y][k] == letters[curr]){
-            //doesnt fit
-            //crash = true;
+            
           }
           else{
             crash = true;
@@ -245,6 +248,9 @@ public class Matrix {
           curr = 0;
 
           for(int k = x; k <= x_endpoint; k ++){  
+            if(grid[y][k] == letters[curr]){  //shared letters
+              sharedLetterCount++;
+            }
             grid[y][k] = letters[curr];
             curr ++;
           }
@@ -292,8 +298,7 @@ public class Matrix {
         for(int k = y; k <= y_endpoint; k ++){  
 
           if(grid[k][x] == '0' || grid[k][x] == letters[curr]){
-            //doesnt fit
-            //crash = true;
+            
           }
           else{
             crash = true;
@@ -307,6 +312,9 @@ public class Matrix {
           curr = 0;
 
           for(int k = y; k <= y_endpoint; k ++){  
+            if(grid[k][x] == letters[curr]){
+              sharedLetterCount++;
+            }
             grid[k][x] = letters[curr];
             curr ++;
           }
@@ -356,8 +364,7 @@ public class Matrix {
         for(int k = 0; k < word.length(); k ++){  
 
           if(grid[y + k][x + k] == '0' || grid[y + k][x + k] == letters[curr]){
-            //doesnt fit
-            //crash = true;
+            //letter is valid
           }
           else{
             crash = true;
@@ -371,6 +378,9 @@ public class Matrix {
           curr = 0;
 
           for(int k = 0; k < word.length(); k ++){  
+            if(grid[y + k][x + k] == letters[curr]){
+              sharedLetterCount++;
+            }
             grid[y + k][x + k] = letters[curr];
             curr ++;
           }
@@ -421,8 +431,8 @@ public class Matrix {
         for(int k = 0; k < word.length(); k ++){  
 
           if(grid[y + k][x - k] == '0' || grid[y + k][x - k] == letters[curr]){
-            //doesnt fit
-            //crash = true;
+            
+            
           }
           else{
             crash = true;
@@ -436,6 +446,9 @@ public class Matrix {
           curr = 0;
 
           for(int k = 0; k < word.length(); k ++){  
+            if(grid[y + k][x - k] == letters[curr]){
+              sharedLetterCount++;
+            }
             grid[y + k][x - k] = letters[curr];
             curr ++;
           }
@@ -495,6 +508,8 @@ public class Matrix {
   
   //prints grid in its current state
   public void printGrid(){
+
+    System.out.println("---------- Word Grid ---------");
     for (int y = 0; y < numRows; y++) {
       for (int x = 0; x < numCols; x++) {
         //System.out.print(grid[y][x] + " ");
@@ -525,12 +540,34 @@ public class Matrix {
       System.out.println(word);
     }
   }
+  
+  public List<String> wordBankList;
 
+  public void wordBank(){
+    wordBankList = new ArrayList<>();
+  }
+
+  public void fillWordBank(List<Words> usedWordList){
+    wordBankList.clear();
+
+    for(Words w : usedWordList){
+      wordBankList.add(w.word);
+    }
+  }
+
+  public void displayWordBank(){
+    System.out.println("Word Bank:\n");
+
+    for(String word : wordBankList){
+      System.out.println(" " + word);
+    }
+  }
+ 
   //prints the list of words used in our grid
   public void printUsedWordList(){
     
     for(Words wrd : usedWordList){
-      System.out.println(wrd.word);
+      System.out.println(wrd.word + ": " + "(" + wrd.x_startPoint + ", " + wrd.y_startPoint + ") , (" + wrd.x_endPoint + ", " + wrd.y_endPoint + ") ");
     }
   }
 
