@@ -1,10 +1,14 @@
 package uta.cse3310;
+import uta.cse3310.Matrix;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.lang.String;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
@@ -220,10 +224,35 @@ public class Main extends WebSocketServer {
         
     }
     
+    public List<String> wordBankList;
+
+    public void wordBank(){
+        wordBankList = new ArrayList<>();
+    }
+
+    public void fillWordBank(List<Words> usedWordList){
+        
+        if(!wordBankList.isEmpty()){
+            wordBankList.clear();            //Clears the bank before adding in case there's some words left in there from last game
+        }   
+         
+        for(Words w : usedWordList){
+            wordBankList.add(w.word);
+        }
+        
+    }
+    
     public void displayWordsInBank(){
         JSONObject words = new JSONObject();
-        //JSONArray wordsArray = new JSONArray(wordBankList); //These two errors are cause because they cant find the symbol.
-        //words.put("Word Bank", wordArray);                  //Solution may be that we need to move methods from Matrix file to here.
+        JSONArray wordsArray = new JSONArray();                  
+        
+        for(String word : wordBankList){
+            wordsArray.add(word);
+        }
+        
+        
+        
+        words.put("Word Bank", wordsArray); 
         String jsonBank = words.toJSONString();
         broadcast(jsonBank);
     }
