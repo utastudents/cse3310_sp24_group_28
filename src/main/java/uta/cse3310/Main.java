@@ -197,7 +197,6 @@ public class Main extends WebSocketServer {
             }
         }
 
-
         // NEEDS HEAVY AMOUNT OF REWORK. THIS IS A BAREBONES PROTOTYPE
         if(U.code == 500){
             int destGame = 0;
@@ -212,8 +211,6 @@ public class Main extends WebSocketServer {
             }
             color(gson, index, destGame, U);
         }
-
-
 
         if (U.code == 600) { // Assuming 600 is the code for a chat message
             //System.out.println(message);
@@ -451,6 +448,8 @@ public class Main extends WebSocketServer {
         System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
+        String version = System.getenv("VERSION");
+        int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
         H.start();

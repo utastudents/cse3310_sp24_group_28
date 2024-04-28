@@ -56,6 +56,7 @@ public class LobbyTest extends TestCase {
         Game[] games = new Game[3];
         games[0] = new Game(); // Assume isOpen is true for the first game
         games[1] = new Game(); // Assume isOpen is false for the second game
+        games[1].isOpen = false;
         games[2] = new Game(); // Assume isOpen is true for the third game
 
         Lobby lobby = new Lobby(new ArrayList<>());
