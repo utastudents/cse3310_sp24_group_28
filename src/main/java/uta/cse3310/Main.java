@@ -231,7 +231,14 @@ public class Main extends WebSocketServer {
     }
 
     public void fillWordBank(List<Words> usedWordList){
+
         
+        if(usedWordList == null || usedWordList.isEmpty()){
+            System.out.println("Error: Your list is empty");
+            return;
+        }
+        
+
         if(!wordBankList.isEmpty()){
             wordBankList.clear();            //Clears the bank before adding in case there's some words left in there from last game
         }   
@@ -251,7 +258,7 @@ public class Main extends WebSocketServer {
         }
         
         
-        
+        //rightBox.put("Word Bank", wordsArray);
         words.put("Word Bank", wordsArray); 
         String jsonBank = words.toJSONString();
         broadcast(jsonBank);
