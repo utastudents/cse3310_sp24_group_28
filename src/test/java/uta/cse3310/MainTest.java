@@ -21,7 +21,7 @@ public class MainTest extends TestCase{
             games[i] = new Game();
         }
         Main main = new Main(8080);
-        main.start();
+        main.onStart();
 
 
 
