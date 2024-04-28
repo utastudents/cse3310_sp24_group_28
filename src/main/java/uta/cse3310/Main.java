@@ -221,15 +221,13 @@ public class Main extends WebSocketServer {
         
     }
     
-    public List<String> wordBankList;
+    public ArrayList<String> wordBankList = new ArrayList<>();
 
     public void wordBank(){
         wordBankList = new ArrayList<>();
     }
 
     public void fillWordBank(List<Words> usedWordList){
-
-        
         if(usedWordList == null || usedWordList.isEmpty()){
             System.out.println("Error: Your list is empty");
             return;
