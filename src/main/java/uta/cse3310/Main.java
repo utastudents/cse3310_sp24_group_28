@@ -221,12 +221,13 @@ public class Main extends WebSocketServer {
         
     }
     
-    public ArrayList<String> wordBankList = new ArrayList<>();
-
+    
+    public List<String> wordBankList; //Keep this for now for the method that displays the words
+    /* 
     public void wordBank(){
         wordBankList = new ArrayList<>();
     }
-
+    
     public void fillWordBank(List<Words> usedWordList){
         if(usedWordList == null || usedWordList.isEmpty()){
             System.out.println("Error: Your list is empty");
@@ -243,7 +244,7 @@ public class Main extends WebSocketServer {
         }
         
     }
-    
+    */
     public void displayWordsInBank(){
         JSONObject words = new JSONObject();
         JSONArray wordsArray = new JSONArray();                  
@@ -302,6 +303,8 @@ public class Main extends WebSocketServer {
                 int[] endCoords = {y2,x2};
                 boolean isWord = games[destGame].playerFoundWord(startCoords, endCoords);
                 if(isWord){
+                    Integer currScore = games[destGame].scores.get(0);
+                    games[destGame].scores.set(index, currScore + 10);
                     System.out.println("straight checkout returned true. modify colorgrid.");
                     // larger length is the non zero; use this for word length;
                     int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));
@@ -343,6 +346,8 @@ public class Main extends WebSocketServer {
                 System.out.printf("%d/%d ", y2-y, x2-x);
                 boolean isWord = games[destGame].playerFoundWord(startCoords,endCoords);
                 if(isWord){
+                    Integer currScore = games[destGame].scores.get(0);
+                    games[destGame].scores.set(index, currScore + 10);
                     System.out.println("found diagonal word.");
                     if(y2-y > 0 && x2-x > 0){
                         System.out.println("Down Right.");
@@ -446,8 +451,8 @@ public class Main extends WebSocketServer {
         System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
-        String version = System.getenv("VERSION");
-        int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
+        //String version = System.getenv("VERSION");
+        //int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
         H.start();
