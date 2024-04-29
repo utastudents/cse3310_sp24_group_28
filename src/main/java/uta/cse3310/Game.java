@@ -131,9 +131,9 @@ public class Game {
         wordBank.clear();            //Clears the bank before adding in case there's some words left in there from last game
     }   
      
-    for(Words w : usedWordList){
-        if(w != null && w.word != null){
-            wordBank.add(w.word);
+    for(String w : matrix.wordBankList){
+        if(w != null && w != null){
+            wordBank.add(w);
         }
     }
     
