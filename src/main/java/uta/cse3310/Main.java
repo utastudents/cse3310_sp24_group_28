@@ -29,8 +29,10 @@ public class Main extends WebSocketServer {
     public ArrayList<Player> playerList = new ArrayList<Player>();
     Lobby lobby = null;
     int playerCount = 0;
+
     public Main(int port){
         super(new InetSocketAddress(port));
+
     }
 
     //Ran when a new websocket connection is completed.
@@ -211,7 +213,7 @@ public class Main extends WebSocketServer {
 
 
 
-        if (U.code == 600) { // Assuming 600 is the code for a chat message
+        if (U.code == 600) { // 600 is the code for a chat message
             //System.out.println(message);
             //System.out.println(U.name + " sent code " + U.code + " over " + conn);
             handleChatMessage(U);
