@@ -4,11 +4,14 @@ var serverUrl;
 let gridsize = 30;
 var timerActive = false;
 var endTime;
-
+var scoreboard 
+var popupScoreBoard
 inputCoords = [];
 var chatSocket = null;
 // Player attributes?
 let name = null;
+let myWindow;
+
 
 
 // Class for UserMessage
@@ -323,7 +326,7 @@ function startGame(){
     console.log("Starting timer");
     timerActive = true; // Set timer as active
 
-    const duration = 60 * 5 ; // 5 minutes in seconds
+    const duration = 60*5  ; // 5 minutes in seconds
     endTime = Date.now() + duration * 1000; // Calculate end time
 
     function updateTimer() {
@@ -352,9 +355,31 @@ function startGame(){
   }
 
   function displayTimeFinished() {
+
+    scoreboard = document.getElementById('scoreBoard');
+    popupScoreBoard = document.getElementById('popupScoreBoard');
+
+    popupScoreBoard.innerHTML = "";
+    popupScoreBoard.appendChild(scoreboard.cloneNode(true)); // Clone and append
     document.getElementById('timer').textContent = "Time Over";
+    document.getElementById('timerPopup').style.display = 'flex'; 
+    document.getElementById('gameArea').style.display = 'block'; 
+    document.getElementById('lobby').style.display = 'none';
+
   }
 
+  function playAgain() {
+
+    document.getElementById('timerPopup').style.display = 'none'; 
+    document.getElementById('gameArea').style.display = 'none'; 
+    document.getElementById('lobby').style.display = 'block'; 
+}
+
+function exitGame() {
+  window.location.reload();
+ 
+
+}
 
 function ping(){
   U = new UserMsg;

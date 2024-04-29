@@ -59,11 +59,20 @@
     </div>
     <button onclick="ping()">Ping Game</button>
   </div>
-  
+
 </body>
-
-
 </html>
+  <div id="timerPopup" class="timer-popup" style="display: none;">
+    <div class="popup-content">
+      <h1>GameOver! Here's the Scoreboard</h1>
+      <table id="popupScoreBoard" cellspacing="0">
+      </table>
+
+        <button onclick="playAgain()">Play Again</button>
+        <button onclick="exitGame()">Exit Game</button>
+
+    </div>
+  </div>
 
 
 <!-- mvn exec:java -Dexec.mainClass=uta.cse3310.Main -->

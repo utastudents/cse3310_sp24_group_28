@@ -214,13 +214,9 @@ public class Main extends WebSocketServer {
             color(gson, index, destGame, U);
         }
 
-<<<<<<< HEAD
 
 
         if (U.code == 600) { // 600 is the code for a chat message
-=======
-        if (U.code == 600) { // Assuming 600 is the code for a chat message
->>>>>>> 09c89c72e6f99ebd3224a4e18a3dd24d033adccc
             //System.out.println(message);
             //System.out.println(U.name + " sent code " + U.code + " over " + conn);
             handleChatMessage(U);
@@ -456,8 +452,8 @@ public class Main extends WebSocketServer {
         System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
-        String version = System.getenv("VERSION");
-        int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
+        //String version = System.getenv("VERSION");
+        //int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
         H.start();
