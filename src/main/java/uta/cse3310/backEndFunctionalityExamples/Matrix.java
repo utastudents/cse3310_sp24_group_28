@@ -56,7 +56,7 @@ public class Matrix {
     //printFillerCharacters();  //debugging
 
     fillGrid();
-    //printGrid();  //prints grid before filler charachters inserted
+    printGrid();  //prints grid before filler charachters inserted
     numFillerCharacters = insertFillerChar();
     printGrid();    //prints completed grid //debugging
     //printUsedWordList();  //debugging
