@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Timer;
+import java.util.Iterator;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -113,6 +114,58 @@ public class Game {
 
       return false;
   }
+
+
+  public void fillWordBank(ArrayList<Words> usedWordList){
+
+    if(wordBank == null){   
+        wordBank = new ArrayList<>();   //This line is added to initialize the list for the null exception error. I think you can comment this out and there will be no problems.
+    }
+    
+    if(usedWordList == null || usedWordList.isEmpty()){
+       System.out.println("Error: Your list is empty");
+        return;
+    }
+
+    if(!wordBank.isEmpty()){
+        wordBank.clear();            //Clears the bank before adding in case there's some words left in there from last game
+    }   
+     
+    for(Words w : usedWordList){
+        if(w != null && w.word != null){
+            wordBank.add(w.word);
+        }
+    }
+    
+}
+
+public void updateWordBank(ArrayList<Words> wordsFound){
+    if(wordsFound == null){
+        //Does nothing here since there's no need to take action.
+    }
+    
+    if(wordBank == null){
+        wordBank = new ArrayList<>();
+    }
+
+    Iterator<String> eraser = wordBank.iterator(); //Used to compare the words in wordBank to wordsFound and remove the matched word
+    boolean remove = false; //Indicates if we need to have to remove a word
+
+    //Checks the word bank to remove the words when they're chosen by a player
+    while(eraser.hasNext()){
+        String bankWord = eraser.next();
+
+        for(Words foundWord : wordsFound){
+            if(bankWord.equals(foundWord.word)){
+                remove = true;
+            }
+        }
+
+        if(remove){
+            eraser.remove();
+        }
+    }
+}
 
   //verifies word has not been found yet 
   //verifies word is within our grid
