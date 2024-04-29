@@ -6,5 +6,7 @@ import junit.framework.TestSuite;
 
 public class ChatTest extends TestCase {
 
-   assert(true);
+   public void testChat(){
+      assertTrue(true);
+   }
 }

@@ -1,6 +1,7 @@
 package uta.cse3310;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Timer;
@@ -78,11 +79,7 @@ public class Game {
     temps.set(playerIdx, casted);
     System.out.println(temps.get(playerIdx)[0] + " " + temps.get(playerIdx)[1]);
   }
-  public boolean checkWord(int[] startCoords, int[] endCoords){
-    // parses coords, strings together word, checks if it's inside words used
-    // Placeholder for testing purposes: randomly returns true or false
-    return true;
-  }
+
   //verifies word has not been found yet 
     //verifies word is within our grid
     //adds valid words to the 'wordsFound' list 
@@ -327,7 +324,8 @@ public class Game {
 
   //word found by a player returns true if word is adds points to player
   public boolean playerFoundWord(int[] startCoords, int[] endCoords){
-
+        System.out.println(Arrays.toString(startCoords));
+        System.out.println(Arrays.toString(endCoords));
       if(verifyWordCoords(startCoords[1], startCoords[0], endCoords[1], endCoords[0]) != null){
           wordsFound.add(verifyWordCoords(startCoords[1], startCoords[0], endCoords[1], endCoords[0]));
           //word verified and added to 'wordsFound'

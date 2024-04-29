@@ -9,27 +9,42 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainTest {
+public class MainTest extends TestCase{
 
     public void testOnCloseRemovesPlayerFromPlayerList() {
         // Arrange: Create necessary objects and set up conditions
+        ArrayList<Player> playerList = new ArrayList<>();
+        Game[] games = new Game[5];
+        for(int i = 0; i < 5; i++){
+            games[i] = new Game();
+        }
         Main main = new Main(8080);
+        main.onStart();
+
+
+
         WebSocket socket1 = Mockito.mock(WebSocket.class);
-        List<Player> playerList = new ArrayList<>();
-        Player player1 = new Player("Alice", socket1);
-        Player player2 = new Player("Bob", socket1);
-        playerList.add(player1);
-        playerList.add(player2);
+        WebSocket socket2 = Mockito.mock(WebSocket.class);
+        
+        // alice and bob joins
+        main.onMessage(socket1, "{\"code\":100,\"name\":\"Alice\",\"message\":null,\"startCoords\":[],\"endCoords\":[]}");
+        main.onMessage(socket2, "{\"code\":100,\"name\":\"Bob\",\"message\":null,\"startCoords\":[],\"endCoords\":[]}");
 
-        // Act: Call the method to be tested
+        // alice toggles
+        main.onMessage(socket1, "{\"code\":200,\"name\":\"Alice\",\"message\":null,\"startCoords\":[],\"endCoords\":[]}");
+        
+        for(Player x: main.playerList){
+            System.out.println(x.isReady);
+        }
+        assertEquals(true, main.playerList.get(0).isReady);
+
+
+        // // Act: Call the method to be tested
         main.onClose(socket1, 1001, "Normal closure", true);
-
-        // Assert: Check if the method behaves as expected
-        assert !playerList.contains(player1); // Player1 should be removed from the playerList
-        assert playerList.contains(player2); // Player2 should still be in the playerList
+        
+        assertEquals(1, main.playerList.size());
     }
 
 }

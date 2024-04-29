@@ -1,10 +1,14 @@
 package uta.cse3310;
+import uta.cse3310.Matrix;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.lang.String;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
@@ -195,7 +199,6 @@ public class Main extends WebSocketServer {
             }
         }
 
-
         // NEEDS HEAVY AMOUNT OF REWORK. THIS IS A BAREBONES PROTOTYPE
         if(U.code == 500){
             int destGame = 0;
@@ -211,9 +214,13 @@ public class Main extends WebSocketServer {
             color(gson, index, destGame, U);
         }
 
+<<<<<<< HEAD
 
 
         if (U.code == 600) { // 600 is the code for a chat message
+=======
+        if (U.code == 600) { // Assuming 600 is the code for a chat message
+>>>>>>> 09c89c72e6f99ebd3224a4e18a3dd24d033adccc
             //System.out.println(message);
             //System.out.println(U.name + " sent code " + U.code + " over " + conn);
             handleChatMessage(U);
@@ -222,10 +229,42 @@ public class Main extends WebSocketServer {
         
     }
     
+    public List<String> wordBankList;
+
+    public void wordBank(){
+        wordBankList = new ArrayList<>();
+    }
+
+    public void fillWordBank(List<Words> usedWordList){
+
+        
+        if(usedWordList == null || usedWordList.isEmpty()){
+            System.out.println("Error: Your list is empty");
+            return;
+        }
+        
+
+        if(!wordBankList.isEmpty()){
+            wordBankList.clear();            //Clears the bank before adding in case there's some words left in there from last game
+        }   
+         
+        for(Words w : usedWordList){
+            wordBankList.add(w.word);
+        }
+        
+    }
+    
     public void displayWordsInBank(){
         JSONObject words = new JSONObject();
-        //JSONArray wordsArray = new JSONArray(wordBankList); //These two errors are cause because they cant find the symbol.
-        //words.put("Word Bank", wordArray);                  //Solution may be that we need to move methods from Matrix file to here.
+        JSONArray wordsArray = new JSONArray();                  
+        
+        for(String word : wordBankList){
+            wordsArray.add(word);
+        }
+        
+        
+        //rightBox.put("Word Bank", wordsArray);
+        words.put("Word Bank", wordsArray); 
         String jsonBank = words.toJSONString();
         broadcast(jsonBank);
     }
@@ -309,11 +348,12 @@ public class Main extends WebSocketServer {
                 int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));
                 int endY = U.endCoords[0];
                 int endX = U.endCoords[1];
-                int[] startCoords = {x,y};
-                int[] endCoords = {x2,y2};
+                int[] startCoords = {y,x};
+                int[] endCoords = {y2,x2};
                 System.out.printf("%d/%d ", y2-y, x2-x);
                 boolean isWord = games[destGame].playerFoundWord(startCoords,endCoords);
                 if(isWord){
+                    System.out.println("found diagonal word.");
                     if(y2-y > 0 && x2-x > 0){
                         System.out.println("Down Right.");
                         for(int i = 0; i < length + 1; i++){
@@ -361,7 +401,6 @@ public class Main extends WebSocketServer {
                 y.playerConn.send(jsonString);
             }
         }
-        System.out.println(games[destGame].temps.toString());
     }
 
 
@@ -417,6 +456,8 @@ public class Main extends WebSocketServer {
         System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
+        String version = System.getenv("VERSION");
+        int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
         H.start();
