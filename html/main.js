@@ -186,6 +186,26 @@ connection.onmessage = function(evt){
         row.appendChild(scoreCell);
         scoreBoard.appendChild(row);
       }
+      //wordBank modification
+      let wordBank = obj.matrix.usedWordList;
+      let rightBox = document.getElementById("rightBox")
+      rightBox.innerHTML = "";
+      for(let i = 0; i < obj.matrix.numWordsUsed; i++){
+        let row = document.createElement("tr");
+        let wordCell = document.createElement("td");
+        // find the word in the bank inside Matrix.usedWordslist
+        let text = wordBank[i].word;
+        let outputText = text;
+        // check to see if it's been found in wordsFound in Game
+        for(let x in Gamepad.wordsFound){
+          if(text == x.word){
+            
+          }
+        }
+        wordCell.innerHTML = wordBank[i].word;
+        row.appendChild(wordCell);
+        rightBox.appendChild(row);
+      }
     }
     else{
       console.log("can't");
