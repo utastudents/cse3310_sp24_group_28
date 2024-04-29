@@ -1,0 +1,15 @@
+List of known bugs as of 4/3:
+
+
+
+Samriddha Kharel
+Endrit Smajli
+
+TODO LIST:
+--> populate scoreBoard with colors (based on index?);
+--> possible implement char[][] array with w,r,g,b for coloring.
+    when highlighting a single cell, this is done w/o modifying array.
+    
+    when user clicks the second letter, the game checks the word.
+    if word is correct. the game updates the color array, and broadcasts.
+    if word is incorrect, the game ignores, and broadcasts anyway.

@@ -1,10 +1,14 @@
 package uta.cse3310;
+import uta.cse3310.Matrix;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.lang.String;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
@@ -193,13 +197,20 @@ public class Main extends WebSocketServer {
             }
         }
 
-
         // NEEDS HEAVY AMOUNT OF REWORK. THIS IS A BAREBONES PROTOTYPE
         if(U.code == 500){
-            color(U,conn,gson);
+            int destGame = 0;
+            int index = 0;
+            // find out what game we're working with
+            for(Player x: playerList){
+                // find who sent it
+                if(conn == x.playerConn){
+                    destGame = x.gameNum;
+                    index = x.index;
+                }
+            }
+            color(gson, index, destGame, U);
         }
-
-
 
         if (U.code == 600) { // Assuming 600 is the code for a chat message
             //System.out.println(message);
@@ -210,10 +221,41 @@ public class Main extends WebSocketServer {
         
     }
     
+    
+    public List<String> wordBankList; //Keep this for now for the method that displays the words
+    /* 
+    public void wordBank(){
+        wordBankList = new ArrayList<>();
+    }
+    
+    public void fillWordBank(List<Words> usedWordList){
+        if(usedWordList == null || usedWordList.isEmpty()){
+            System.out.println("Error: Your list is empty");
+            return;
+        }
+        
+
+        if(!wordBankList.isEmpty()){
+            wordBankList.clear();            //Clears the bank before adding in case there's some words left in there from last game
+        }   
+         
+        for(Words w : usedWordList){
+            wordBankList.add(w.word);
+        }
+        
+    }
+    */
     public void displayWordsInBank(){
         JSONObject words = new JSONObject();
-        //JSONArray wordsArray = new JSONArray(wordBankList); //These two errors are cause because they cant find the symbol.
-        //words.put("Word Bank", wordArray);                  //Solution may be that we need to move methods from Matrix file to here.
+        JSONArray wordsArray = new JSONArray();                  
+        
+        for(String word : wordBankList){
+            wordsArray.add(word);
+        }
+        
+        
+        //rightBox.put("Word Bank", wordsArray);
+        words.put("Word Bank", wordsArray); 
         String jsonBank = words.toJSONString();
         broadcast(jsonBank);
     }
@@ -235,24 +277,12 @@ public class Main extends WebSocketServer {
 
     
 
-    public void color(UserMsg U, WebSocket conn, Gson gson){
-        int destGame = 0;
-        int index = 0;
-        // find out what game we're working with
-        for(Player x: playerList){
-            // find who sent it
-            if(conn == x.playerConn){
-                destGame = x.gameNum;
-                index = x.index;
-            }
-        }
+    public void color(Gson gson, int index, int destGame, UserMsg U){
         // User wants to highlight a cell.
+        System.out.println(games[destGame].temps);
         if(U.endCoords == null){
             System.out.println(U.name + " highlighted cell. Modify temps");
             int[] firstCoord = {U.startCoords[0],U.startCoords[1]};
-            // tempVal[0] = U.startCoords[0];
-            // tempVal[1] = U.startCoords[1];
-            // games[destGame].temps.set(index, tempVal);
             games[destGame].highlightCell(index, firstCoord);
         }
         else{
@@ -262,8 +292,8 @@ public class Main extends WebSocketServer {
             int x2 = U.endCoords[1];
             System.out.printf("[%d, %d] -> [%d, %d]\n", y,x,y2,x2);
             if(y == y2 && x == x2){
-                // if the two coords are identical, null temp,
-                System.out.println("identical coords. Modifying temps");
+                System.out.println("identical coords.");       
+                // clear highlighted starting cell for player
                 Integer[] clearVal = {-1,-1};
                 games[destGame].temps.set(index, clearVal);
             }
@@ -271,8 +301,10 @@ public class Main extends WebSocketServer {
                 // slope is either vertical or horizontal. check word
                 int[] startCoords = {y,x};
                 int[] endCoords = {y2,x2};
-                boolean me = games[destGame].checkWord(startCoords,endCoords);
-                if(me){
+                boolean isWord = games[destGame].playerFoundWord(startCoords, endCoords);
+                if(isWord){
+                    Integer currScore = games[destGame].scores.get(0);
+                    games[destGame].scores.set(index, currScore + 10);
                     System.out.println("straight checkout returned true. modify colorgrid.");
                     // larger length is the non zero; use this for word length;
                     int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));
@@ -293,29 +325,69 @@ public class Main extends WebSocketServer {
                             games[destGame].colorGrid[y][end - i] = indexToChar(index);
                         }
                     }
+                    // clear highlighted starting cell for player
                     Integer[] clearVal = {-1,-1};
                     games[destGame].temps.set(index, clearVal);
                 }
                 else{
-                    System.out.println("straight checkout return false. clear temps");
+                    System.out.println("Word not found or already found.");
+                    // clear highlighted starting cell for player
                     Integer[] clearVal = {-1,-1};
                     games[destGame].temps.set(index, clearVal);
                 }
             }
-            // else if(Math.abs((y2-y)/(x2-x)) == 1){ // diagonal slope
-            //     // sys out what direction we're highlighting.
-            // } 
-            else{
-                // slope is invalid; modify temps
-                System.out.println("invalid slope.");
+            else if(Math.abs((U.endCoords[0] - U.startCoords[0])/(U.endCoords[1] - U.startCoords[1])) == 1){ // diagonal slope
+                System.out.println(Math.abs((U.endCoords[0] - U.startCoords[0])/(U.endCoords[1] - U.startCoords[1])));
+                int length = Math.max(Math.abs(y2-y), Math.abs(x2-x));
+                int endY = U.endCoords[0];
+                int endX = U.endCoords[1];
+                int[] startCoords = {y,x};
+                int[] endCoords = {y2,x2};
+                System.out.printf("%d/%d ", y2-y, x2-x);
+                boolean isWord = games[destGame].playerFoundWord(startCoords,endCoords);
+                if(isWord){
+                    Integer currScore = games[destGame].scores.get(0);
+                    games[destGame].scores.set(index, currScore + 10);
+                    System.out.println("found diagonal word.");
+                    if(y2-y > 0 && x2-x > 0){
+                        System.out.println("Down Right.");
+                        for(int i = 0; i < length + 1; i++){
+                            System.out.printf("[%d, %d]\n", endY - i, endX - i);
+                            games[destGame].colorGrid[endY - i][endX - i] = indexToChar(index);
+                        }
+                    }
+                    else if(y2-y < 0 && x2-x > 0){
+                        System.out.println("Up Right.");
+                        for(int i = 0; i < length + 1; i++){
+                            System.out.printf("[%d, %d]\n", endY + i, endX - i);
+                            games[destGame].colorGrid[endY + i][endX - i] = indexToChar(index);
+                        }
+                    }
+                    else if(y2-y > 0 && x2-x < 0){
+                        System.out.println("Down Left.");
+                        for(int i = 0; i < length + 1; i++){
+                            System.out.printf("[%d, %d]\n", endY - i, endX + i);
+                            games[destGame].colorGrid[endY - i][endX + i] = indexToChar(index);
+                        }
+                    }
+                    else{
+                        System.out.println("Up Left.");
+                        for(int i = 0; i < length + 1; i++){
+                            System.out.printf("[%d, %d]\n", endY + i, endX + i);
+                            games[destGame].colorGrid[endY + i][endX + i] = indexToChar(index);
+                        }
+                    }
+                }
                 Integer[] clearVal = {-1,-1};
                 games[destGame].temps.set(index, clearVal);
             }
-            // if(dx == 0 || dy == 0){
-            // }
-            // User chose a complete start and end of a word. check if the word is correct.
-            // if yes, modify colorgrid, otherwise, use temps.set(index, {-1,-1}) to remove the temp value for the player with the index;
-        }
+            else{
+                // slope is invalid; do nothing
+                System.out.println("invalid slope.");
+                // clear highlighted starting cell for player
+                Integer[] clearVal = {-1,-1};
+                games[destGame].temps.set(index, clearVal);
+            }}
         for(Player y: playerList){
             // check if the player is in the destined game
             if(games[destGame].names.contains(y.name)){
@@ -330,16 +402,16 @@ public class Main extends WebSocketServer {
     // parses user's index to a color-character
     public char indexToChar(int index){
         if(index == 0){
-            return 'r';
+            return 'R';
         }
         else if(index == 1){
-            return 'g';
+            return 'G';
         }
         else if(index == 2){
-            return 'b';
+            return 'B';
         }
         else if(index == 3){
-            return 'y';
+            return 'Y';
         }
         else{
             return '-';
@@ -376,8 +448,11 @@ public class Main extends WebSocketServer {
     }
 
     public static void main(String[] args) {
+        System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
+        //String version = System.getenv("VERSION");
+        //int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
         H.start();

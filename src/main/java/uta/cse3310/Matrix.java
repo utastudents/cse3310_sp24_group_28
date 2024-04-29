@@ -1,3 +1,4 @@
+package uta.cse3310;
 import java.lang.StringBuilder;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +14,7 @@ import java.lang.String;
 public class Matrix {
   
   public int sharedLetterCount;         //keeps count of how many letters are shared by two words
-
+  public int numWordsUsed;
   public float density;                  //percent of letters used for words (1.00 == every letter belongs to a word)
   public ArrayList<String> wordList;     //a list of all the words available (loaded from a file)
   public ArrayList<Words> usedWordList;  //a list of all the words used/inserted in the grid
@@ -23,7 +24,7 @@ public class Matrix {
   public int numFillerCharacters;        //number of charachters used to fill in empty spaces in the grid
   public char[][] grid;                  //the grid of words itsefl 
   public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters aka alphabette
-  
+  public List<String> wordBankList;      //Used to store the chosen words to display onto the word bank
 
   //non-default constructor
   Matrix(String filename){
@@ -58,8 +59,9 @@ public class Matrix {
     fillGrid();
     //printGrid();  //prints grid before filler charachters inserted
     numFillerCharacters = insertFillerChar();
+    numWordsUsed = usedWordList.size();
     printGrid();    //prints completed grid //debugging
-    //printUsedWordList();  //debugging
+    printUsedWordList();  //debugging
 
   }
 
@@ -540,28 +542,6 @@ public class Matrix {
     }
   }
   
-  public List<String> wordBankList;
-
-  public void wordBank(){
-    wordBankList = new ArrayList<>();
-  }
-
-  public void fillWordBank(List<Words> usedWordList){
-    wordBankList.clear();
-
-    for(Words w : usedWordList){
-      wordBankList.add(w.word);
-    }
-  }
-
-  public void displayWordBank(){
-    System.out.println("Word Bank:\n");
-
-    for(String word : wordBankList){
-      System.out.println(" " + word);
-    }
-  }
- 
   //prints the list of words used in our grid
   public void printUsedWordList(){
     

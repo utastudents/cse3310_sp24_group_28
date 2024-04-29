@@ -108,7 +108,7 @@ connection.onmessage = function(evt){
       document.getElementById("lobby").style.display = "none";
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("grid").style.display = "block";
-      wordgrid = obj.matrix;
+      wordgrid = obj.matrixDup;
       startTimer();
       // modify the game grid
       colorgrid = obj.colorGrid;
@@ -118,19 +118,19 @@ connection.onmessage = function(evt){
           document.getElementById(i + "," + j).innerHTML = wordgrid[i][j];
 
           // apply colors using Game.colorgrid;
-          if(colorgrid[i][j] == 'w'){
+          if(colorgrid[i][j] == 'W'){
             document.getElementById(i + "," + j).style.backgroundColor = "white";
           }
-          else if(colorgrid[i][j] == 'r'){
+          else if(colorgrid[i][j] == 'R'){
             document.getElementById(i + "," + j).style.backgroundColor = "red";
           }
-          else if(colorgrid[i][j] == 'g'){
+          else if(colorgrid[i][j] == 'G'){
             document.getElementById(i + "," + j).style.backgroundColor = "green";
           }
-          else if(colorgrid[i][j] == 'b'){
+          else if(colorgrid[i][j] == 'B'){
             document.getElementById(i + "," + j).style.backgroundColor = "blue";
           }
-          else if(colorgrid[i][j] == 'y'){
+          else if(colorgrid[i][j] == 'Y'){
             document.getElementById(i + "," + j).style.backgroundColor = "yellow";
           }
 
@@ -183,6 +183,26 @@ connection.onmessage = function(evt){
         row.appendChild(scoreCell);
         scoreBoard.appendChild(row);
       }
+      //wordBank modification
+      let wordBank = obj.matrix.usedWordList;
+      let rightBox = document.getElementById("rightBox")
+      rightBox.innerHTML = "";
+      for(let i = 0; i < obj.matrix.numWordsUsed; i++){
+        let row = document.createElement("tr");
+        let wordCell = document.createElement("td");
+        // find the word in the bank inside Matrix.usedWordslist
+        let text = wordBank[i].word;
+        let outputText = text;
+        // check to see if it's been found in wordsFound in Game
+        for(let x in Gamepad.wordsFound){
+          if(text == x.word){
+            
+          }
+        }
+        wordCell.innerHTML = wordBank[i].word;
+        row.appendChild(wordCell);
+        rightBox.appendChild(row);
+      }
     }
     else{
       console.log("can't");
@@ -201,6 +221,8 @@ connection.onmessage = function(evt){
     }
     else if(msg == "unapproved"){
       document.getElementById("serverMessage").innerHTML = "Name already taken";
+      document.getElementById("serverMessage").style.display = "block";
+
     }
   }
   
