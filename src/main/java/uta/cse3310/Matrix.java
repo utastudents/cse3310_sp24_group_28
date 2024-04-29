@@ -63,6 +63,8 @@ public class Matrix {
     printGrid();    //prints completed grid //debugging
     printUsedWordList();  //debugging
 
+    wordBankList = new ArrayList<String>();
+
   }
 
   //initialize our grid to all zeros only to be used at the start
@@ -123,13 +125,19 @@ public class Matrix {
 
       int orientation = rand.nextInt(2);
       if(orientation == 0){  //regular word orietation
-        horizontalWordInsert(word);
+        //horizontalWordInsert(word)
+        if(horizontalWordInsert(word)){ //if word was inserted
+          wordBankList.add(word);       //include in word bank correct orientation
+        }
       }else{
         //invert our word
         StringBuilder SBWord = new StringBuilder(word);
         SBWord.reverse();
         String inverseWord = SBWord.toString();
-        horizontalWordInsert(inverseWord);
+        //horizontalWordInsert(inverseWord);
+        if(horizontalWordInsert(inverseWord)){  //if word got inserted
+          wordBankList.add(word);               //inlcude in word bank correct orientation
+        }
       }
     }
     //System.out.println(calcDensity());  //debugging
@@ -144,13 +152,20 @@ public class Matrix {
 
       int orientation = rand.nextInt(2);
       if(orientation == 0){  //regular word orietation
-        verticalWordInsert(word);
+        //verticalWordInsert(word);
+        if(verticalWordInsert(word)){ 
+          wordBankList.add(word);
+        }
+
       }else{
         //invert our word
         StringBuilder SBWord = new StringBuilder(word);
         SBWord.reverse();
         String inverseWord = SBWord.toString();
-        verticalWordInsert(inverseWord);
+        //verticalWordInsert(inverseWord);
+        if(verticalWordInsert(inverseWord)){ 
+          wordBankList.add(word);
+        }
       }
     }
     //System.out.println(calcDensity());  //debugging
@@ -165,13 +180,19 @@ public class Matrix {
 
       int orientation = rand.nextInt(2);
       if(orientation == 0){  //regular word orietation
-        diagonalWordInsert1(word);
+        //diagonalWordInsert1(word);
+        if(diagonalWordInsert1(word)){
+          wordBankList.add(word);
+        }
       }else{
         //invert our word
         StringBuilder SBWord = new StringBuilder(word);
         SBWord.reverse();
         String inverseWord = SBWord.toString();
-        diagonalWordInsert1(inverseWord);
+        //diagonalWordInsert1(inverseWord);
+        if(diagonalWordInsert1(inverseWord)){
+          wordBankList.add(word);
+        }
       }
     }
     //System.out.println(calcDensity());  //debugging
@@ -186,21 +207,27 @@ public class Matrix {
 
       int orientation = rand.nextInt(2);
       if(orientation == 0){  //regular word orietation
-        diagonalWordInsert2(word);
+        //diagonalWordInsert2(word);
+        if(diagonalWordInsert2(word)){
+          wordBankList.add(word);
+        }
       }else{
         //invert our word
         StringBuilder SBWord = new StringBuilder(word);
         SBWord.reverse();
         String inverseWord = SBWord.toString();
-        diagonalWordInsert2(inverseWord);
+        //diagonalWordInsert2(inverseWord);
+        if(diagonalWordInsert2(inverseWord)){
+          wordBankList.add(word);
+        }
       }
     }
     //System.out.println(calcDensity());  //debugging
 
   }
   
-  //inserts horizontal words also saves inserted words
-  public void horizontalWordInsert(String word){
+  //inserts horizontal words also saves inserted words  returns true if word was inserted
+  public boolean horizontalWordInsert(String word){
 
     //System.out.println("Word Recieved: " + word); //debugging
 
@@ -257,13 +284,16 @@ public class Matrix {
           }
           Words wrd = new Words(word, x, y, x_endpoint, y);
           usedWordList.add(wrd);
+          return true;
         }
       }
     }
+  
+    return false; //nothing inserted
   }
 
   //inserts vertical words  also saves inserted words
-  public void verticalWordInsert(String word){
+  public boolean verticalWordInsert(String word){
 
     //System.out.println("Word Recieved: " + word);   //debugging
 
@@ -321,14 +351,16 @@ public class Matrix {
           }
           Words wrd = new Words(word, x, y, x, y_endpoint);
           usedWordList.add(wrd);
+          return true;
         }
       }
     }
+    return false;
 
   }
 
   //inserts diagonal words TOP-LEFT -> BOTTOM-RIGHT also saves inserted words
-  public void diagonalWordInsert1(String word){
+  public boolean diagonalWordInsert1(String word){
 
     //System.out.println("Word Recieved: " + word); //debugging
 
@@ -387,16 +419,16 @@ public class Matrix {
           }
           Words wrd = new Words(word, x, y, x_endpoint, y_endpoint);
           usedWordList.add(wrd);
-
+          return true;
         }
       }
     }
-
+    return false;
 
   }  
 
   //inserts diagonal words TOP-RIGHT -> BOTTOM-LEFT also saves inserted words
-  public void diagonalWordInsert2(String word){
+  public boolean diagonalWordInsert2(String word){
     //System.out.println("Word Recieved: " + word); //debugging
 
     //select a random spot in the 50x50 grid to start the insert
@@ -455,10 +487,11 @@ public class Matrix {
           }
           Words wrd = new Words(word, x, y, x_endpoint, y_endpoint);
           usedWordList.add(wrd);
+          return true;
         }
       }
     }
-
+    return false;
 
   }
 
