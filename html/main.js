@@ -194,11 +194,7 @@ connection.onmessage = function(evt){
         let text = wordBank[i].word;
         let outputText = text;
         // check to see if it's been found in wordsFound in Game
-        for(let x in Gamepad.wordsFound){
-          if(text == x.word){
-            
-          }
-        }
+        
         wordCell.innerHTML = wordBank[i].word;
         row.appendChild(wordCell);
         rightBox.appendChild(row);
@@ -223,6 +219,9 @@ connection.onmessage = function(evt){
       document.getElementById("serverMessage").innerHTML = "Name already taken";
       document.getElementById("serverMessage").style.display = "block";
 
+    }
+    else{
+      document.title = msg;
     }
   }
   

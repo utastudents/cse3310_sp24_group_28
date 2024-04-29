@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 
 
 public class Main extends WebSocketServer {
+    static String version = System.getenv("VERSION");
     // Vector<Game> games = new Vector<Game>();
     Game[] games = new Game[5];
     // list of used nicknames shared between all the games?
@@ -41,6 +42,7 @@ public class Main extends WebSocketServer {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " connected");
+        conn.send(version);
     }
 
     @Override
@@ -451,7 +453,6 @@ public class Main extends WebSocketServer {
         System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
-        //String version = System.getenv("VERSION");
         //int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
