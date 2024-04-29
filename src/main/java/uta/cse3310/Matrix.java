@@ -32,7 +32,7 @@ public class Matrix {
 
   //default constructor //HARDCODED FILE TO READ FROM
   Matrix(){
-
+    wordBankList = new ArrayList<String>();
     sharedLetterCount = 0;
 
     //initiate all values to a default
@@ -63,7 +63,7 @@ public class Matrix {
     printGrid();    //prints completed grid //debugging
     printUsedWordList();  //debugging
 
-    wordBankList = new ArrayList<String>();
+    
 
   }
 
