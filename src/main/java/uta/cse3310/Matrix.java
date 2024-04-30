@@ -24,7 +24,7 @@ public class Matrix {
   public int numFillerCharacters;        //number of charachters used to fill in empty spaces in the grid
   public char[][] grid;                  //the grid of words itsefl 
   public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters aka alphabette
-  public List<String> wordBankList;      //Used to store the chosen words to display onto the word bank
+  public ArrayList<String> wordBankList;      //Used to store the chosen words to display onto the word bank
 
   //non-default constructor
   Matrix(String filename){
@@ -34,8 +34,6 @@ public class Matrix {
   Matrix(){
     wordBankList = new ArrayList<String>();
     sharedLetterCount = 0;
-
-    //initiate all values to a default
     density = 0;
 
     wordList = new ArrayList<String>();
@@ -58,7 +56,8 @@ public class Matrix {
 
     fillGrid();
     //printGrid();  //prints grid before filler charachters inserted
-    System.out.print(calcDensity()); //calcualte density after grid is filled with words
+    density = calcDensity();
+    System.out.println(calcDensity()); //calcualte density after grid is filled with words
     numFillerCharacters = insertFillerChar();
     numWordsUsed = usedWordList.size();
     printGrid();    //prints completed grid //debugging
@@ -518,7 +517,7 @@ public class Matrix {
     return inserts;
   }
 
-  //calculates density of grid BEFORE adding filler charachters
+  //calculates density of grid use BEFORE adding filler charachters
   public float calcDensity(){
 
     //find how many charachters we could have
