@@ -188,17 +188,26 @@ connection.onmessage = function(evt){
       }
       //wordBank modification
       let wordBank = obj.matrix.wordBankList;
+      let wordsFoundList = obj.wordsFound;
       let rightBox = document.getElementById("rightBox")
       rightBox.innerHTML = "";
       for(let i = 0; i < obj.matrix.numWordsUsed; i++){
         let row = document.createElement("tr");
         let wordCell = document.createElement("td");
         // find the word in the bank inside Matrix.usedWordslist
-        let text = wordBank[i].word;
+        let text = wordBank[i];
+
         let outputText = text;
         // check to see if it's been found in wordsFound in Game
-
-        wordCell.innerHTML = wordBank[i].word;
+        // for(let word in wordsFoundList){
+        //   compText = word.word;
+        //   revText = Array.from(compText).reverse().join("");
+        //   console.log(compText);
+        //   if(compText == text || revText == text){
+        //     wordCell.style.color = "red";
+        //   }
+        // }
+        wordCell.innerHTML = outputText;
         row.appendChild(wordCell);
         rightBox.appendChild(row);
       }
@@ -223,7 +232,7 @@ connection.onmessage = function(evt){
       document.getElementById("serverMessage").style.display = "block";
 
     }
-    else{
+    else if(msg != "You will be queued into a game." && !msg.includes("{")){
       document.title = msg;
     }
   }
