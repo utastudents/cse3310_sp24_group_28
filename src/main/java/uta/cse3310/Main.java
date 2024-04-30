@@ -309,7 +309,9 @@ public class Main extends WebSocketServer {
                 int[] endCoords = {y2,x2};
                 boolean isWord = games[destGame].playerFoundWord(startCoords, endCoords);
                 if(isWord){
-                    Integer currScore = games[destGame].scores.get(0);
+                    Integer currScore = games[destGame].scores.get(index);
+                    System.out.println("-----------> " + index);
+                    System.out.println("-----------> " + currScore);
                     games[destGame].scores.set(index, currScore + 10);
                     System.out.println("straight checkout returned true. modify colorgrid.");
                     // larger length is the non zero; use this for word length;
@@ -351,8 +353,8 @@ public class Main extends WebSocketServer {
                 int[] endCoords = {y2,x2};
                 System.out.printf("%d/%d ", y2-y, x2-x);
                 boolean isWord = games[destGame].playerFoundWord(startCoords,endCoords);
-                if(isWord){
-                    Integer currScore = games[destGame].scores.get(0);
+                if(isWord == true){
+                    Integer currScore = games[destGame].scores.get(index);
                     games[destGame].scores.set(index, currScore + 10);
                     System.out.println("found diagonal word.");
                     if(y2-y > 0 && x2-x > 0){
