@@ -187,26 +187,16 @@ connection.onmessage = function(evt){
         scoreBoard.appendChild(row);
       }
       //wordBank modification
-      let wordBank = obj.matrix.wordBankList;
-      let wordsFoundList = obj.wordsFound;
+      let wordBank = obj.wordBank; // wordBank object in Game.java
+      let wordsFoundList = obj.wordsFound; // wordsFound also in Game.java
       let rightBox = document.getElementById("rightBox")
       rightBox.innerHTML = "";
-      for(let i = 0; i < obj.matrix.numWordsUsed; i++){
+      for(let i = 0; i < wordBank.length; i++){
         let row = document.createElement("tr");
         let wordCell = document.createElement("td");
         // find the word in the bank inside Matrix.usedWordslist
         let text = wordBank[i];
-
         let outputText = text;
-        // check to see if it's been found in wordsFound in Game
-        // for(let word in wordsFoundList){
-        //   compText = word.word;
-        //   revText = Array.from(compText).reverse().join("");
-        //   console.log(compText);
-        //   if(compText == text || revText == text){
-        //     wordCell.style.color = "red";
-        //   }
-        // }
         wordCell.innerHTML = outputText;
         row.appendChild(wordCell);
         rightBox.appendChild(row);
