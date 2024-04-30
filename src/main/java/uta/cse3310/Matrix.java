@@ -58,6 +58,7 @@ public class Matrix {
 
     fillGrid();
     //printGrid();  //prints grid before filler charachters inserted
+    System.out.print(calcDensity()); //calcualte density after grid is filled with words
     numFillerCharacters = insertFillerChar();
     numWordsUsed = usedWordList.size();
     printGrid();    //prints completed grid //debugging
