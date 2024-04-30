@@ -12,7 +12,7 @@ import java.lang.String;
 //this class is based around a 50 x 50 grid 
 //everything else is just to keep track of this grid and the data withing
 public class Matrix {
-  
+  public float minDens;                   //saves the minimum word desnity within grid
   public int sharedLetterCount;         //keeps count of how many letters are shared by two words
   public int numWordsUsed;
   public float density;                  //percent of letters used for words (1.00 == every letter belongs to a word)
@@ -32,6 +32,7 @@ public class Matrix {
 
   //default constructor //HARDCODED FILE TO READ FROM
   Matrix(){
+    minDens = 0.6f;
     wordBankList = new ArrayList<String>();
     sharedLetterCount = 0;
     density = 0;
@@ -116,7 +117,7 @@ public class Matrix {
   public void fillGrid(){
 
     //fill grid with horizontal words -- lets try this first
-    while(calcDensity() < 0.1){
+    while(calcDensity() < (1 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -143,7 +144,7 @@ public class Matrix {
     //System.out.println(calcDensity());  //debugging
 
     //fill grid with vertical words
-    while(calcDensity() < 0.2){
+    while(calcDensity() < (2 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -171,7 +172,7 @@ public class Matrix {
     //System.out.println(calcDensity());  //debugging
 
     //fill grid with diagonal words version 1 (top-left - > bottom-right)
-    while(calcDensity() < 0.3){
+    while(calcDensity() < ( 3 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -198,7 +199,7 @@ public class Matrix {
     //System.out.println(calcDensity());  //debugging
 
     //fill grid with diagonal words version 2 (top-right -> bottom-left)
-    while(calcDensity() < 0.4){
+    while(calcDensity() < (4 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
