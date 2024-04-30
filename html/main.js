@@ -184,7 +184,7 @@ connection.onmessage = function(evt){
         scoreBoard.appendChild(row);
       }
       //wordBank modification
-      let wordBank = obj.matrix.usedWordList;
+      let wordBank = obj.matrix.wordBankList;
       let rightBox = document.getElementById("rightBox")
       rightBox.innerHTML = "";
       for(let i = 0; i < obj.matrix.numWordsUsed; i++){
@@ -194,7 +194,7 @@ connection.onmessage = function(evt){
         let text = wordBank[i].word;
         let outputText = text;
         // check to see if it's been found in wordsFound in Game
-        
+
         wordCell.innerHTML = wordBank[i].word;
         row.appendChild(wordCell);
         rightBox.appendChild(row);
