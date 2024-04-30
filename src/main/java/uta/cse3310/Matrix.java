@@ -12,7 +12,7 @@ import java.lang.String;
 //this class is based around a 50 x 50 grid 
 //everything else is just to keep track of this grid and the data withing
 public class Matrix {
-  
+  public float minDens;                   //saves the minimum word desnity within grid
   public int sharedLetterCount;         //keeps count of how many letters are shared by two words
   public int numWordsUsed;
   public float density;                  //percent of letters used for words (1.00 == every letter belongs to a word)
@@ -24,7 +24,7 @@ public class Matrix {
   public int numFillerCharacters;        //number of charachters used to fill in empty spaces in the grid
   public char[][] grid;                  //the grid of words itsefl 
   public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters aka alphabette
-  public List<String> wordBankList;      //Used to store the chosen words to display onto the word bank
+  public ArrayList<String> wordBankList;      //Used to store the chosen words to display onto the word bank
 
   //non-default constructor
   Matrix(String filename){
@@ -32,10 +32,9 @@ public class Matrix {
 
   //default constructor //HARDCODED FILE TO READ FROM
   Matrix(){
+    minDens = 0.6f;
     wordBankList = new ArrayList<String>();
     sharedLetterCount = 0;
-
-    //initiate all values to a default
     density = 0;
 
     wordList = new ArrayList<String>();
@@ -58,7 +57,8 @@ public class Matrix {
 
     fillGrid();
     //printGrid();  //prints grid before filler charachters inserted
-    System.out.print(calcDensity()); //calcualte density after grid is filled with words
+    density = calcDensity();
+    System.out.println(calcDensity()); //calcualte density after grid is filled with words
     numFillerCharacters = insertFillerChar();
     numWordsUsed = usedWordList.size();
     printGrid();    //prints completed grid //debugging
@@ -117,7 +117,7 @@ public class Matrix {
   public void fillGrid(){
 
     //fill grid with horizontal words -- lets try this first
-    while(calcDensity() < 0.1){
+    while(calcDensity() < (1 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -144,7 +144,7 @@ public class Matrix {
     //System.out.println(calcDensity());  //debugging
 
     //fill grid with vertical words
-    while(calcDensity() < 0.2){
+    while(calcDensity() < (2 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -172,7 +172,7 @@ public class Matrix {
     //System.out.println(calcDensity());  //debugging
 
     //fill grid with diagonal words version 1 (top-left - > bottom-right)
-    while(calcDensity() < 0.3){
+    while(calcDensity() < ( 3 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -199,7 +199,7 @@ public class Matrix {
     //System.out.println(calcDensity());  //debugging
 
     //fill grid with diagonal words version 2 (top-right -> bottom-left)
-    while(calcDensity() < 0.4){
+    while(calcDensity() < (4 * (minDens / 4))){
       //insert one random word
       String word = selectRandomWord();
       Random rand = new Random();
@@ -518,7 +518,7 @@ public class Matrix {
     return inserts;
   }
 
-  //calculates density of grid BEFORE adding filler charachters
+  //calculates density of grid use BEFORE adding filler charachters
   public float calcDensity(){
 
     //find how many charachters we could have
