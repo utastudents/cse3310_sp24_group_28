@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 
 
 public class Main extends WebSocketServer {
+    static String version = System.getenv("VERSION");
     // Vector<Game> games = new Vector<Game>();
     Game[] games = new Game[5];
     // list of used nicknames shared between all the games?
@@ -43,6 +44,7 @@ public class Main extends WebSocketServer {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " connected");
+        conn.send(version);
     }
 
     @Override
@@ -307,7 +309,9 @@ public class Main extends WebSocketServer {
                 int[] endCoords = {y2,x2};
                 boolean isWord = games[destGame].playerFoundWord(startCoords, endCoords);
                 if(isWord){
-                    Integer currScore = games[destGame].scores.get(0);
+                    Integer currScore = games[destGame].scores.get(index);
+                    System.out.println("-----------> " + index);
+                    System.out.println("-----------> " + currScore);
                     games[destGame].scores.set(index, currScore + 10);
                     System.out.println("straight checkout returned true. modify colorgrid.");
                     // larger length is the non zero; use this for word length;
@@ -349,8 +353,8 @@ public class Main extends WebSocketServer {
                 int[] endCoords = {y2,x2};
                 System.out.printf("%d/%d ", y2-y, x2-x);
                 boolean isWord = games[destGame].playerFoundWord(startCoords,endCoords);
-                if(isWord){
-                    Integer currScore = games[destGame].scores.get(0);
+                if(isWord == true){
+                    Integer currScore = games[destGame].scores.get(index);
                     games[destGame].scores.set(index, currScore + 10);
                     System.out.println("found diagonal word.");
                     if(y2-y > 0 && x2-x > 0){
@@ -455,7 +459,6 @@ public class Main extends WebSocketServer {
         System.out.println(System.getProperty("user.dir"));
         // http = 9028;
         int httpport = Integer.parseInt(System.getenv("HTTP_PORT"));
-        //String version = System.getenv("VERSION");
         //int test_grid = Integer.parseInt(System.getenv("TEST_GRID"));
         // Set up the http server
         HttpServer H = new HttpServer(httpport, "./html");
