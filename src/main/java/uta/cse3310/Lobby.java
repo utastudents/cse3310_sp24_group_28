@@ -46,19 +46,13 @@ public class Lobby {
   }
 
   public void startGame(Player player){
-    //after a player as joined a game, their status be ingame
-    player.ingame = true;
-    player.isReady = false;
   }
   public void displayStatus(Player player){
-    if(player.isReady == false && player.ingame == false){
+    if(player.isReady == false){
       System.out.println("Status: not ready");
     }
-    else if(player.isReady == true && player.ingame == false){
+    else if(player.isReady == true){
       System.out.println("Status: ready");
-    }
-    else if(player.isReady == false && player.ingame == true){
-      System.out.println("Status: ingame");
     }
   }
   public void displayPlayerName(Player player){
