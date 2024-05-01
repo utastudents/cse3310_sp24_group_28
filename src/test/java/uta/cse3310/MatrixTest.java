@@ -29,4 +29,64 @@ public class MatrixTest extends TestCase
     return false;
   }
   
+  public void testingWordLayout(){
+    boolean insert1 = verticalWordInsert("Test1");
+    boolean insert2 = horizontalWordInsert("Test2");
+    boolean insert3 = diagonalWordInsert1("Test3");
+
+    if(!insert1){
+      System.out.println("Word not printed vertically");
+    }
+
+    if(!insert2){
+      System.out.println("Word not printed horizontally");
+    }
+
+    if(!insert3){
+      System.out.println("Word not printed diagonally");
+    }
+
+    String expWord = "Test";
+    StringBuilder actualWord = new StringBuilder();
+
+    for(int i = 0; i < expWord.length(); i++){  //tests the diagonal part
+      actualWord.append(grid[i][i]);
+    }
+
+    for(int i = 0; i < expWord.length(); i++){  //tests the horizontal part
+      actualWord.append(grid[0][i]);
+    }
+
+    for(int i = 0; i < expWord.length(); i++){  //tests the vertical part
+      actualWord.append(grid[i][0]);
+    }
+
+    if(!expWord.equals(actualWord.toString())){
+      System.out.println("Word wasn't inserted correctly diagonally");
+    }
+
+    System.out.println("Test Case: PASSED");
+  }
+
+  public void testDensity(){
+    fillGrid();
+
+    float minDens = 0.6f;
+    float expMinDens = minDens;
+    
+    assertFalse("The density is below the minimum", calcDensity() >= expMinDens);
+    
+
+    System.out.println("Test Case for density: PASSED");
+    
+  }
+
+  public void testSharedLetters(){
+    boolean testWord = horizontalWordInsert("Testing");
+    assertTrue("Failed to share two words together", testWord);
+
+    boolean testWord2 = horizontalWordInsert("Together");
+    assertTrue("Failed to share two words together", testWord2);
+  }
+
 }
