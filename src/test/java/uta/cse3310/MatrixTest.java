@@ -84,6 +84,17 @@ public class MatrixTest extends TestCase {
 
     boolean testWord2 = horizontalWordInsert("Together");
     assertTrue("Failed to share two words together", testWord2);
+
+
+
+    //second version
+    Matrix m = new Matrix();
+    System.out.println("Can we reach atleast 10 shared letters");
+    boolean b = false;
+    if(m.sharedLetterCount >= 10){
+      b = true;
+    }
+    assertTrue("Shared Letters does not reach 10", b);
   }
 
 
