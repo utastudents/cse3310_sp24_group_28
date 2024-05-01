@@ -107,6 +107,7 @@ connection.onmessage = function(evt){
     }
     // if we're reading a Game.java object
     else if("isOpen" in obj){
+      document.getElementById("stats").innerHTML = obj.stats;
       //document.getElementById("preLobbyChat").style.display = "none";
       document.getElementById("lobby").style.display = "none";
       document.getElementById("gameArea").style.display = "block";
