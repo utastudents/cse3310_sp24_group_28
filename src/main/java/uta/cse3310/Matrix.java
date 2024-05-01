@@ -27,7 +27,7 @@ public class Matrix {
   public ArrayList<String> wordBankList;      //Used to store the chosen words to display onto the word bank
 
   //testing
-  public ArrayList<Character> fillerCharactersUsed = new ArrayList<Charachter>();
+  public ArrayList<Character> fillerCharactersUsed = new ArrayList<Character>();
 
   //non-default constructor
   Matrix(String filename){
