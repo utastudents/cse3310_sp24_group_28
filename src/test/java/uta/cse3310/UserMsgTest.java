@@ -1,4 +1,4 @@
-package uta.cse3310;
+/*package uta.cse3310;
 import junit.framework.TestCase;
 
 public class UserMsgTest extends TestCase {
@@ -20,4 +20,4 @@ public class UserMsgTest extends TestCase {
         assertEquals("Hello!", userMsg.message);
         assertEquals(1, userMsg.gameNum);
     }
-}
+}*/

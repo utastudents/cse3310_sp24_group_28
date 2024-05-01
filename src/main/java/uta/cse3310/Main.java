@@ -40,7 +40,7 @@ public class Main extends WebSocketServer {
         wordBankList = new ArrayList<>();
 
 
-    };
+    }
 
     //Ran when a new websocket connection is completed.
     @Override

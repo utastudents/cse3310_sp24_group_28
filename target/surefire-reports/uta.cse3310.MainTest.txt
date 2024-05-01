@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: uta.cse3310.MainTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.405 s <<< FAILURE! - in uta.cse3310.MainTest
+testOnCloseRemovesPlayerFromPlayerList(uta.cse3310.MainTest)  Time elapsed: 0.404 s  <<< ERROR!
+java.lang.NoSuchFieldError: code
+	at uta.cse3310.Main.onMessage(Main.java:102)
+	at uta.cse3310.MainTest.testOnCloseRemovesPlayerFromPlayerList(MainTest.java:32)
+
