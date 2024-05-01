@@ -10,7 +10,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
-import
 public class MainTest extends TestCase{
 
     public void testOnCloseRemovesPlayerFromPlayerList() {
