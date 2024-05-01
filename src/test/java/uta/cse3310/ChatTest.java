@@ -6,8 +6,12 @@ import com.google.gson.JsonObject;
 
 // classes to illustrate the concept
 class UserMsg {
-    public String name;
-    public String message;
+    int code;
+  String name;
+  String message;
+  int startCoords[];
+  int endCoords[];
+  int gameNum;
 }
 
 class ChatHandler {
