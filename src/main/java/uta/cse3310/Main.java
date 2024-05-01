@@ -37,6 +37,8 @@ public class Main extends WebSocketServer {
 
     public Main(int port){
         super(new InetSocketAddress(port));
+        wordBankList = new ArrayList<>();
+
 
     }
 
