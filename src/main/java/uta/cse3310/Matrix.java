@@ -26,6 +26,9 @@ public class Matrix {
   public ArrayList<Character> fillerCharachters;   //a list of ALL possible filler charachters aka alphabette
   public ArrayList<String> wordBankList;      //Used to store the chosen words to display onto the word bank
 
+  //testing
+  public ArrayList<Character> fillerCharactersUsed = new ArrayList<Charachter>();
+
   //non-default constructor
   Matrix(String filename){
   }
@@ -510,6 +513,8 @@ public class Matrix {
           r = rand.nextInt(fillerCharachters.size());
           char ch = fillerCharachters.get(r);
           grid[y][x] = ch;
+          //testing
+          fillerCharactersUsed.add(ch);
           inserts ++;
 
         }
