@@ -38,8 +38,11 @@ public class Main extends WebSocketServer {
     public Main(int port){
         super(new InetSocketAddress(port));
         wordBankList = new ArrayList<>();
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 375857f04911dbf1659db331ceb208e770602fa9
     }
 
     //Ran when a new websocket connection is completed.
@@ -231,7 +234,9 @@ public class Main extends WebSocketServer {
     
     
     public List<String> wordBankList; //Keep this for now for the method that displays the words
-    /* 
+    
+    
+     
     public void wordBank(){
         wordBankList = new ArrayList<>();
     }
@@ -252,7 +257,9 @@ public class Main extends WebSocketServer {
         }
         
     }
-    */
+    
+
+ 
     public void displayWordsInBank(){
         JSONObject words = new JSONObject();
         JSONArray wordsArray = new JSONArray();                  
@@ -268,6 +275,8 @@ public class Main extends WebSocketServer {
         broadcast(jsonBank);
     }
     
+
+
     public void handleChatMessage(UserMsg userMsg) {
         // Construct JSON object representing the chat message
         JSONObject chatMessage = new JSONObject();
