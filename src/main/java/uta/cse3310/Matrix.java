@@ -29,6 +29,7 @@ public class Matrix {
   //testing
   public ArrayList<Character> fillerCharactersUsed = new ArrayList<Character>();
 
+
   //non-default constructor
   Matrix(String filename){
   }

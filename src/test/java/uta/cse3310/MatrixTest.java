@@ -5,65 +5,111 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class MatrixTest extends TestCase {
-  public void testGridHasWords() {
-    char[][] grid = new char[30][30];
-    List<String> wordBank = new ArrayList<String>();
-    wordBank.add("Ant");
-    wordBank.add("Zebra");
-    wordBank.add("Baboon");
+  // public void testGridHasWords() {
+  //   char[][] grid = new char[30][30];
+  //   List<String> wordBank = new ArrayList<String>();
+  //   wordBank.add("Ant");
+  //   wordBank.add("Zebra");
+  //   wordBank.add("Baboon");
 
-    boolean result = gridHasWords(grid, wordBank);
+  //   boolean result = gridHasWords(grid, wordBank);
 
-    assertFalse(result); // Add your assertions based on the expected behavior
-  }
+  //   assertFalse(result); // Add your assertions based on the expected behavior
+  // }
 
-  // Matrix wordSearch = new Matrix(grid);
+  // // Matrix wordSearch = new Matrix(grid);
 
-  // wordSearch.horizontalWordInsert(false,null, grid);
+  // // wordSearch.horizontalWordInsert(false,null, grid);
 
-  // assertTrue(gridHasWords(grid, wordBank));
+  // // assertTrue(gridHasWords(grid, wordBank));
 
-  boolean gridHasWords(char[][] grid, List<String> wordBank) {
-    return false;
-  }
+  // boolean gridHasWords(char[][] grid, List<String> wordBank) {
+  //   return false;
+  // }
 
-  public void testingWordLayout() {
-    boolean insert1 = verticalWordInsert("Test1");
-    boolean insert2 = horizontalWordInsert("Test2");
-    boolean insert3 = diagonalWordInsert1("Test3");
+  // public void testingWordLayout() {
+  //   boolean insert1 = verticalWordInsert("Test1");
+  //   boolean insert2 = horizontalWordInsert("Test2");
+  //   boolean insert3 = diagonalWordInsert1("Test3");
 
-    if (!insert1) {
-      System.out.println("Word not printed vertically");
-    }
+  //   if (!insert1) {
+  //     System.out.println("Word not printed vertically");
+  //   }
 
-    if (!insert2) {
-      System.out.println("Word not printed horizontally");
-    }
+  //   if (!insert2) {
+  //     System.out.println("Word not printed horizontally");
+  //   }
 
-    if (!insert3) {
-      System.out.println("Word not printed diagonally");
-    }
+  //   if (!insert3) {
+  //     System.out.println("Word not printed diagonally");
+  //   }
 
-    String expWord = "Test";
-    StringBuilder actualWord = new StringBuilder();
+  //   String expWord = "Test";
+  //   StringBuilder actualWord = new StringBuilder();
 
-    for (int i = 0; i < expWord.length(); i++) { // tests the diagonal part
-      actualWord.append(grid[i][i]);
-    }
+  //   for (int i = 0; i < expWord.length(); i++) { // tests the diagonal part
+  //     actualWord.append(grid[i][i]);
+  //   }
 
-    for (int i = 0; i < expWord.length(); i++) { // tests the horizontal part
-      actualWord.append(grid[0][i]);
-    }
+  //   for (int i = 0; i < expWord.length(); i++) { // tests the horizontal part
+  //     actualWord.append(grid[0][i]);
+  //   }
 
-    for (int i = 0; i < expWord.length(); i++) { // tests the vertical part
-      actualWord.append(grid[i][0]);
-    }
+  //   for (int i = 0; i < expWord.length(); i++) { // tests the vertical part
+  //     actualWord.append(grid[i][0]);
+  //   }
 
-    if (!expWord.equals(actualWord.toString())) {
-      System.out.println("Word wasn't inserted correctly diagonally");
-    }
+  //   if (!expWord.equals(actualWord.toString())) {
+  //     System.out.println("Word wasn't inserted correctly diagonally");
+  //   }
 
-    System.out.println("Test Case: PASSED");
+  //   System.out.println("Test Case: PASSED");
+  // }
+
+  public void testWordInsertionLayout(){
+    Matrix m = new Matrix();
+    //make sure we have words inserted in all orientations
+
+
+    //go through all words inserted and see which ones are 
+      //horizontal
+      int h = 0;
+
+
+      //vertical
+      int v = 0;
+
+      //diagonal
+      int d = 0;
+
+      //find in which orientation each word was inserted
+      for(Words w: m.usedWordList){
+        boolean xdelta = false; //no change in x
+        boolean ydelta = false; // no change in y
+
+        if(w.x_startPoint != w.x_endPoint){ //compare x coordinates
+          xdelta = true;
+        }
+        if(w.y_startPoint != w.y_endPoint){ //compare y coordinates
+          ydelta = true;
+        }
+
+        if(xdelta && ydelta){
+          d++;
+        }
+        else if(xdelta){
+          h++;
+        }
+        else if(ydelta){
+          v++;
+        }
+      }
+
+      System.out.println("Horizontal inserts: " + h);
+      System.out.println("Vertical inserts: " + v);
+      System.out.println("Diahonal inserts: " + d);
+
+
   }
 
   public void testDensity() {
