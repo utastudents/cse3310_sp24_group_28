@@ -50,6 +50,7 @@ public class Game {
     }
 
     public Game() {
+        stats = String.format("Density: " + matrix.density + " NumFiller: " + matrix.numFillerCharacters + " NumWords: " + matrix.numWordsUsed + " SharedLetters: " + matrix.sharedLetterCount);
         this.players = new ArrayList<Player>();
         this.isOpen = true;
         for (int i = 0; i < 30; i++) {
