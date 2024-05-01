@@ -13,7 +13,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 public class Game {
-
+    public String stats;
     public int gameNum; // coorealates games and corresponding players
     public Matrix matrix = new Matrix();
     public ArrayList<Player> players; // players in this game can also get the 'numPlayers' easily
