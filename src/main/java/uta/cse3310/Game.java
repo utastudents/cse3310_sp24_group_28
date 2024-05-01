@@ -19,7 +19,7 @@ public class Game {
     public ArrayList<Player> players; // players in this game can also get the 'numPlayers' easily
     public ArrayList<Words> wordsFound = new ArrayList<Words>(); // words found in the game
     public ArrayList<String> wordBank = matrix.wordBankList; // easily get a hold of the wordbank to display during a
-                                                             // game
+                                                            // game
 
     // Possible attributes needed
     public boolean isOpen;
@@ -74,6 +74,7 @@ public class Game {
 
     }
 
+  
     public void highlightCell(int playerIdx, int[] coord) {
         Integer[] casted = new Integer[2];
         casted[0] = coord[0];

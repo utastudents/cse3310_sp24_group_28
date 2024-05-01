@@ -344,7 +344,7 @@ function startGame(){
     console.log("Starting timer");
     timerActive = true; // Set timer as active
 
-    const duration = 60*5  ; // 5 minutes in seconds
+    const duration = 60 * 5  ; // 5 minutes in seconds
     endTime = Date.now() + duration * 1000; // Calculate end time
 
     function updateTimer() {

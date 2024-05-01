@@ -47,4 +47,14 @@ public class MainTest extends TestCase{
         assertEquals(1, main.playerList.size());
     }
 
+    public void testDisplayMessage(){
+        MessageDisplay exampleMessage = new MessageDisplay();
+
+        exampleMessage.displayMessages();
+
+        String output = outputStream.toString().trim();
+
+        assertTrue(output.contains("Test"), "Message was not displayed");
+    }
+
 }
