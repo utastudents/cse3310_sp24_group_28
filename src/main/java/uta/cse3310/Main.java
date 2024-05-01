@@ -38,12 +38,9 @@ public class Main extends WebSocketServer {
     public Main(int port){
         super(new InetSocketAddress(port));
         wordBankList = new ArrayList<>();
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 375857f04911dbf1659db331ceb208e770602fa9
-    }
+    };
 
     //Ran when a new websocket connection is completed.
     @Override
