@@ -28,16 +28,6 @@ public class Matrix {
 
   //testing
   public ArrayList<Character> fillerCharactersUsed = new ArrayList<Character>();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> eee088b031a139329acbace8750ae733f277fea4
-=======
-
-=======
->>>>>>> ea35d09 (Update)
->>>>>>> 415fabb (Update)
 
   //non-default constructor
   Matrix(String filename){
