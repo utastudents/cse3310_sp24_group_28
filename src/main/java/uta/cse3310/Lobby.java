@@ -55,8 +55,10 @@ public class Lobby {
       System.out.println("Status: ready");
     }
   }
-  public void displayPlayerName(Player player){
+  public String displayPlayerName(Player player){
     System.out.println("Player: " + player.name);
+    return "Player: " + player.name;
+    
   }
 
 }

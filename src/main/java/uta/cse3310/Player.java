@@ -16,6 +16,7 @@ public class Player {
     this.isReady = false;
     this.playerConn = newConn;
     this.score = 0;
+   
 
   }
 }
