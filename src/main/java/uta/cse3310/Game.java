@@ -13,7 +13,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 public class Game {
-
+    public String stats;
     public int gameNum; // coorealates games and corresponding players
     public Matrix matrix = new Matrix();
     public ArrayList<Player> players; // players in this game can also get the 'numPlayers' easily
@@ -50,6 +50,7 @@ public class Game {
     }
 
     public Game() {
+        stats = String.format("Density: " + matrix.density + " NumFiller: " + matrix.numFillerCharacters + " NumWords: " + matrix.numWordsUsed + " SharedLetters: " + matrix.sharedLetterCount);
         this.players = new ArrayList<Player>();
         this.isOpen = true;
         for (int i = 0; i < 30; i++) {
