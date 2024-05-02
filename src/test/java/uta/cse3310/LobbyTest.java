@@ -66,7 +66,7 @@ public class LobbyTest extends TestCase {
     }
 
     public void testlobbylist(){
-        boolean succeed = false;
+        int anyplayer = 0;
         ArrayList<Player> players = new ArrayList<>();
         WebSocket socket1 = Mockito.mock(WebSocket.class);
         WebSocket socket2 = Mockito.mock(WebSocket.class);
@@ -81,16 +81,13 @@ public class LobbyTest extends TestCase {
         player2.isReady = true;
         player3.isReady = true; 
         Lobby lobby = new Lobby(players);  
-        assertEquals(lobby.numPlayers, 3);
+        assertEquals(3, lobby.numPlayers);
         for(int i = 0; i < lobby.numPlayers; i++){
             if(lobby.playerStatuses.get(i) == true || lobby.playerStatuses.get(i) == false){
-                if(lobby.displayPlayerName(players.get(i)) == "Player: " + players.get(i).name ){
-                    succeed = true;
-                }
-            
+                anyplayer++;
             }
         }
-        
+        assertEquals(3, anyplayer);       
     }
 
 }
