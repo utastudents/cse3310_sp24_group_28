@@ -65,6 +65,7 @@ public class LobbyTest extends TestCase {
         assertEquals(2, lobby.gamesAvailable); // Only two games are open
     }
 
+<<<<<<< HEAD
     public void testlobbylist(){
         int anyplayer = 0;
         ArrayList<Player> players = new ArrayList<>();
@@ -88,6 +89,39 @@ public class LobbyTest extends TestCase {
             }
         }
         assertEquals(3, anyplayer);       
+=======
+    private Lobby lobby;
+    private Player player1;
+    private Player player2;
+    private Game game;
+
+    @Before
+    public void setUp() {
+        // Initialize the lobby object before each test
+        lobby = new Lobby(new ArrayList<>());
+        // Initialize some players
+        player1 = new Player("Player1", null);
+        player2 = new Player("Player2", null);
+        // Initialize a game
+        game = new Game();
+    }
+
+    public void testPlayerStatusChangesInLobbyAfterJoiningGame() {
+        // Add players to the lobby
+        lobby.playerNames.add(player1.name);
+        lobby.playerStatuses.add(player1.isReady);
+        lobby.numPlayers++;
+
+        // Verify player status in lobby before joining game
+        assertTrue("Player should be ready in the lobby before joining a game", lobby.playerStatuses.get(0));
+
+        // Simulate player joining a game
+        game.addEntries(player1);
+
+        // Verify player status in lobby after joining game
+        lobby.updateLobby(game.players);
+        assertFalse("Player should not be ready in the lobby after joining a game", lobby.playerStatuses.get(0));
+>>>>>>> 557afd4 (Update)
     }
 
 }
